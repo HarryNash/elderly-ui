@@ -2,7 +2,14 @@ package g1736229.elderlyui;
 
 import android.content.ContentProviderOperation;
 import android.content.Context;
+import android.content.Intent;
 import android.provider.ContactsContract;
+
+import static android.support.v4.content.ContextCompat.startActivity;
+import static java.lang.System.*;
+
+import android.support.v4.content.ContextCompat;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
@@ -11,8 +18,21 @@ import java.util.ArrayList;
  */
 
 public class InitialiseSampleContactData {
-    public void addContactData(Context context, ContactInfo contactInfo){
-        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+    public void addContactData(Context context, ContactInfo contactInfo) {
+        // Creates a new Intent to insert a contact
+        Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION);
+        // Sets the MIME type to match the Contacts Provider
+        intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
+        intent.putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, contactInfo.getEmail());
+        intent.putExtra(ContactsContract.Intents.Insert.NAME, contactInfo.getName());
+        intent.putExtra(ContactsContract.Intents.Insert.PHONE, contactInfo.getPhoneNumber());
+
+        try{
+            context. startActivity(intent);
+        }catch(Exception e){
+            out.println(e.getMessage());
+        }
+        /*ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
                 .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
                 .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null).build());
@@ -58,5 +78,7 @@ public class InitialiseSampleContactData {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+*/
     }
 }
