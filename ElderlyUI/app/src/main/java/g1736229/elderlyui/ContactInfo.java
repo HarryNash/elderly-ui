@@ -1,10 +1,12 @@
 package g1736229.elderlyui;
 
+import java.io.Serializable;
+
 /**
  * Created by jaspreet on 18/10/17.
  */
 
-public class ContactInfo {
+public class ContactInfo implements Serializable {
     private String name;
     private String phoneNumber;
     private String email;
@@ -47,4 +49,6 @@ public class ContactInfo {
                 ", email='" + email + '\'' +
                 '}';
     }
+
+
 }

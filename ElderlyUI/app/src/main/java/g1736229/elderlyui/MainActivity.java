@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendContactInfo(ContactInfo contactInfo) {
         Intent intent = new Intent(this, DisplayContactInfo.class);
-        intent.putExtra(EXTRA_MESSAGE, contactInfo.toString());
+        intent.putExtra(EXTRA_MESSAGE, contactInfo);
         startActivity(intent);
     }
 }

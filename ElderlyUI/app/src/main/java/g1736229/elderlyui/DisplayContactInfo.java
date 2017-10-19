@@ -14,10 +14,14 @@ public class DisplayContactInfo extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        ContactInfo contactInfo = (ContactInfo) intent.getSerializableExtra(MainActivity.EXTRA_MESSAGE);
 
         // Capture the layout's TextView and set the string as its text
-        TextView textView = (TextView) findViewById(R.id.textView);
-        textView.setText(message);
+        TextView nameText = (TextView) findViewById(R.id.textView);
+        nameText.setText(contactInfo.getName());
+        TextView phoneText = (TextView) findViewById(R.id.textView2);
+        phoneText.setText(contactInfo.getPhoneNumber());
+        TextView emailText = (TextView) findViewById(R.id.textView3);
+        emailText.setText(contactInfo.getEmail());
     }
 }
