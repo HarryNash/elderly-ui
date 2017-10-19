@@ -4,10 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
-import java.util.List;
 
 /**
  * Created by jaspreet on 18/10/17.
@@ -33,22 +31,20 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     // create a new ImageView for each item referenced by the Adapter
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent) {
         ImageView imageView;
-        if (convertView == null) {
-            // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(200, 200));
-            // TODO: fix warping of images when transformed into squares
-            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setPadding(20, 20, 20, 20);
 
+        if (view == null) {
+            view = new SquareImageView(mContext);
+            imageView = (ImageView) view;
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
-            imageView = (ImageView) convertView;
+            imageView = (ImageView) view;
         }
 
         RandomInfoGenerator randomInfoGenerator = new RandomInfoGenerator(200, 200);
-        imageView.setImageBitmap(randomInfoGenerator.solidColorBitmap());
+        imageView.setImageResource(mThumbIds[position]);
+//        squareImageView.setImageBitmap(randomInfoGenerator.solidColorBitmap());
         return imageView;
     }
 
