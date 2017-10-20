@@ -4,6 +4,9 @@ import android.content.ContentProviderOperation;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.ContactsContract;
+import android.content.ContentResolver;
+import android.widget.Toast;
+import android.app.Activity;
 
 import static android.support.v4.content.ContextCompat.startActivity;
 import static java.lang.System.*;
@@ -19,7 +22,7 @@ import java.util.ArrayList;
 
 public class InitialiseSampleContactData {
     public void addContactData(Context context, ContactInfo contactInfo) {
-        // Creates a new Intent to insert a contact
+       /* // Creates a new Intent to insert a contact
         Intent intent = new Intent(ContactsContract.Intents.Insert.ACTION);
         // Sets the MIME type to match the Contacts Provider
         intent.setType(ContactsContract.RawContacts.CONTENT_TYPE);
@@ -28,10 +31,12 @@ public class InitialiseSampleContactData {
         intent.putExtra(ContactsContract.Intents.Insert.PHONE, contactInfo.getPhoneNumber());
 
         try{
-            context. startActivity(intent);
+           context.startActivity(intent);
         }catch(Exception e){
             out.println(e.getMessage());
-        }
+        }*/
+
+       //===========================================================================================
         /*ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
                 .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
@@ -80,5 +85,65 @@ public class InitialiseSampleContactData {
         }
     }
 */
+        //==========================================================================================
+        String DisplayName = "Eva";
+        String MobileNumber = "0123456789";
+        String emailID = "eva@abc.bg";
+
+        ArrayList < ContentProviderOperation > ops = new ArrayList < ContentProviderOperation > ();
+
+        ops.add(ContentProviderOperation.newInsert(
+                ContactsContract.RawContacts.CONTENT_URI)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                .build());
+
+        //------------------------------------------------------ Names
+        if (DisplayName != null) {
+            ops.add(ContentProviderOperation.newInsert(
+                    ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                    .withValue(ContactsContract.Data.MIMETYPE,
+                            ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                    .withValue(
+                            ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME,
+                            DisplayName).build());
+        }
+
+        //------------------------------------------------------ Mobile Number
+        if (MobileNumber != null) {
+            ops.add(ContentProviderOperation.
+                    newInsert(ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                    .withValue(ContactsContract.Data.MIMETYPE,
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, MobileNumber)
+                    .withValue(ContactsContract.CommonDataKinds.Phone.TYPE,
+                            ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                    .build());
+        }
+        //------------------------------------------------------ Email
+        if (emailID != null) {
+            ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                    .withValue(ContactsContract.Data.MIMETYPE,
+                            ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)
+                    .withValue(ContactsContract.CommonDataKinds.Email.DATA, emailID)
+                    .withValue(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK)
+                    .build());
+        }
+        // Asking the Contact provider to create a new contact
+        try {
+            Activity activity = new Activity();
+            ContentResolver contentResolver = activity.getContentResolver();
+            if(contentResolver == null){
+                out.println("contentResolver is null");
+            }
+            contentResolver.applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Exception: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
