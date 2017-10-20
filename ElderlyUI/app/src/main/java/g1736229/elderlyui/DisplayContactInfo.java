@@ -16,14 +16,20 @@ public class DisplayContactInfo extends AppCompatActivity {
         Intent intent = getIntent();
         ContactInfo contactInfo = (ContactInfo) intent.getSerializableExtra(MainActivity.EXTRA_MESSAGE);
 
-
-
         // Capture the layout's TextView and set the string as its text
         TextView nameText = (TextView) findViewById(R.id.textView);
-        nameText.setText(contactInfo.getName());
+        nameText.setText(convertNull(contactInfo.getName()));
         TextView phoneText = (TextView) findViewById(R.id.textView2);
-        phoneText.setText(contactInfo.getPhoneNumber());
+        phoneText.setText(convertNull(contactInfo.getPhoneNumber()));
         TextView emailText = (TextView) findViewById(R.id.textView3);
-        emailText.setText(contactInfo.getEmail());
+        emailText.setText(convertNull(contactInfo.getEmail()));
+    }
+
+    private String convertNull(String string) {
+        if (string == null) {
+            return "<Blank>";
+        }
+
+        return string;
     }
 }

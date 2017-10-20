@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import java.util.List;
+
 
 /**
  * Created by jaspreet on 18/10/17.
@@ -13,13 +15,15 @@ import android.widget.ImageView;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
+    private List<ContactInfo> contactInfos;
 
-    public ImageAdapter(Context c) {
-        this.mContext = c;
+    public ImageAdapter(Context mContext, List<ContactInfo> contactInfos) {
+        this.mContext = mContext;
+        this.contactInfos = contactInfos;
     }
 
     public int getCount() {
-        return mThumbIds.length;
+        return contactInfos.size();
     }
 
     public Object getItem(int position) {

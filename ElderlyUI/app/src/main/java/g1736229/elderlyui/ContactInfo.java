@@ -19,6 +19,9 @@ public class ContactInfo implements Serializable {
         this.email = email;
     }
 
+    public ContactInfo() {
+    }
+
     public String getName() {
         return name;
     }
