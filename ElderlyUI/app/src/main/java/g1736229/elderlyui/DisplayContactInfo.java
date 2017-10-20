@@ -16,6 +16,8 @@ public class DisplayContactInfo extends AppCompatActivity {
         Intent intent = getIntent();
         ContactInfo contactInfo = (ContactInfo) intent.getSerializableExtra(MainActivity.EXTRA_MESSAGE);
 
+
+
         // Capture the layout's TextView and set the string as its text
         TextView nameText = (TextView) findViewById(R.id.textView);
         nameText.setText(contactInfo.getName());

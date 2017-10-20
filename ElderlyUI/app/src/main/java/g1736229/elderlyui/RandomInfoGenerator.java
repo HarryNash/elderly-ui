@@ -30,6 +30,7 @@ public class RandomInfoGenerator {
     {
        ContactInfo contactInfo = new ContactInfo(UUID.randomUUID().toString(),
                                                  UUID.randomUUID().toString(),
+                                                 UUID.randomUUID().toString(),
                                                  UUID.randomUUID().toString());
 
         return contactInfo;
