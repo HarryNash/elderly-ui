@@ -143,6 +143,30 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    //called when user tabs on the "call" button
+    public void callPerson(View view){
+        //redirect to a new page
+    }
+
+
+    //called when user tabs on the "email" button
+    public void emailPerson(View view){
+        //redirect to a new page
+    }
+
+
+    //called when user tabs on the "message" button
+    public void messagePerson(View view){
+        //redirect to a new page
+    }
+
+
+    //called when user tabs on the "video call" button
+    public void videoCallPerson(View view){
+        //redirect to a new page
+    }
+
+
     private void initialiseSampleContactData() {
         ArrayList<ContactInfo> contactInfoArray = new ArrayList<ContactInfo>();
 
