@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 5; // just a random number
 
     private final List<ContactInfo> contactInfos = new ArrayList<>();
+    private ImageAdapter imageAdapter;
+    private GridView gridView;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,18 +40,25 @@ public class MainActivity extends AppCompatActivity {
         this.acquirePermissions();
     }
 
+    // init the views and tell app to load contacts asynchronously
     private void displayContacts() {
 
         //injects some arbitrary contacts
-        initialiseSampleContactData();
+        //initialiseSampleContactData();
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(this, contactInfos));
-        this.retrieveContactInfo();
-        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        gridView = (GridView) findViewById(R.id.gridview);
+        imageAdapter = new ImageAdapter(this, contactInfos);
+        gridView.setAdapter(imageAdapter);
+
+        LoadContactsTask loadContactsTask = new LoadContactsTask(this);
+        loadContactsTask.execute();
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 if (position < contactInfos.size())
+                    // send contact info corresponding to the selected image to the next activity
                     sendContactInfo(contactInfos.get(position));
                 else
                     sendContactInfo(new ContactInfo());
@@ -59,8 +70,20 @@ public class MainActivity extends AppCompatActivity {
         return contactInfos;
     }
 
+    public ImageAdapter getImageAdapter() {
+        return imageAdapter;
+    }
+
+    public GridView getGridView() {
+        return gridView;
+    }
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
 
     // TODO: add checks if either read_contacts or write_contacts permissions are granted but not both
+    // check if the application has the valid permissions and if not then ask for the user for them
     private void acquirePermissions() {
 
         boolean granted = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
@@ -75,18 +98,23 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        // contacts are displayed if user has given permissions
         displayContacts();
     }
 
+    // check if permissions were granted by the user
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
+        // get the status of our permission request
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                   displayContacts();
+                    // if permission granted, display contacts
+                    displayContacts();
                 } else {
+                    // otherwise display an error message
                     String msg = "Permissions required for application to function";
                     Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
                     toast.show();
@@ -98,54 +126,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Get Contact Info from phone
-    // TODO: put all of this into a cursor loader
-    private List<ContactInfo> retrieveContactInfo() {
-        contactInfos.clear();
-
-        ContentResolver cr = this.getContentResolver();
-        String OrderBy = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
-        Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI,
-                                 null,
-                                 null,
-                                 null,
-                                 OrderBy);
-
-        if (cursor != null && cursor.getCount() > 0) {
-            while (cursor.moveToNext()) {
-                int idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID);
-                int nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-                int hasPhoneNumberIndex = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
-
-                String id = cursor.getString(idIndex);
-                String name = cursor.getString(nameIndex);
-                String phoneNumber = null;
-
-                int hasPhoneNumber = cursor.getInt(hasPhoneNumberIndex);
-                if (hasPhoneNumber > 0) {
-                    Cursor pCursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                                              null,
-                                              ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + id,
-                                              null,
-                                              null);
-
-                    while (pCursor.moveToNext()) {
-                        int phoneNumberIndex = pCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                        phoneNumber = pCursor.getString(phoneNumberIndex);
-                    }
-
-                    pCursor.close();
-                }
-
-                contactInfos.add(new ContactInfo(id, name, phoneNumber, null));
-            }
-
-            cursor.close();
-        }
-
-        return contactInfos;
-    }
-
+    // Send selected contact info to next activity
     public void sendContactInfo(ContactInfo contactInfo) {
         Intent intent = new Intent(this, DisplayContactInfo.class);
         intent.putExtra(EXTRA_MESSAGE, contactInfo);
