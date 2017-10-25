@@ -2,7 +2,6 @@ package g1736229.elderlyui;
 
 import android.Manifest;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,9 +19,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,13 +30,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         this.acquirePermissions();
     }
 
     private void displayContacts() {
+
+        //injects some arbitrary contacts
+        initialiseSampleContactData();
+
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapter(this, contactInfos));
         this.retrieveContactInfo();
@@ -58,14 +59,17 @@ public class MainActivity extends AppCompatActivity {
         return contactInfos;
     }
 
-    // Acquire READ_CONTACTS Permissions
+
+    // TODO: add checks if either read_contacts or write_contacts permissions are granted but not both
     private void acquirePermissions() {
 
         boolean granted = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
                           == PackageManager.PERMISSION_GRANTED;
+        granted &= ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CONTACTS)
+                   == PackageManager.PERMISSION_GRANTED;
         if (!granted) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_CONTACTS},
+                    new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS},
                     MY_PERMISSIONS_REQUEST_READ_CONTACTS);
 
             return;
@@ -146,5 +150,24 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DisplayContactInfo.class);
         intent.putExtra(EXTRA_MESSAGE, contactInfo);
         startActivity(intent);
+    }
+
+    private void initialiseSampleContactData() {
+        ArrayList<ContactInfo> contactInfoArray = new ArrayList<>();
+
+        contactInfoArray.add(new ContactInfo("001", "Aleksandar", "02079460498", "aleks@abc.com"));
+        contactInfoArray.add(new ContactInfo("002", "Maria", "02079461235", "maria@abc.com"));
+        contactInfoArray.add(new ContactInfo("003", "Tatiana", "02079423456", "tatiana@abc.com"));
+        contactInfoArray.add(new ContactInfo("004", "Borislav", "02079456789", "borislav@abc.com"));
+        contactInfoArray.add(new ContactInfo("005", "Silvana", "02079402364", "silvana@abc.com"));
+        contactInfoArray.add(new ContactInfo("006", "Krasimira", "02079445623", "krasimira@abc.com"));
+        contactInfoArray.add(new ContactInfo("007", "Richard", "02079411447", "richard@abc.com"));
+        contactInfoArray.add(new ContactInfo("008", "Tom", "02079425896", "tom@abc.com"));
+
+        InitialiseSampleContactData initialiseSampleContactData =
+                new InitialiseSampleContactData();
+        for (ContactInfo contact : contactInfoArray){
+            initialiseSampleContactData.addContactData(this, contact);
+        }
     }
 }
