@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -27,17 +29,20 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "g17361229.elderlyui.MESSAGE";
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 5; // just a random number
 
+    private final List<ContactInfo> contactInfos = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         this.acquirePermissions();
-        //final List<ContactInfo> contactInfos = generateRandomContactInfo(0);
-        final List<ContactInfo> contactInfos = retrieveContactInfo();
+    }
+
+    private void displayContacts() {
         GridView gridview = (GridView) findViewById(R.id.gridview);
         gridview.setAdapter(new ImageAdapter(this, contactInfos));
-
+        this.retrieveContactInfo();
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
@@ -49,49 +54,50 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private List<ContactInfo> generateRandomContactInfo(int n) {
-        List<ContactInfo> contactInfos = new ArrayList<>();
-        RandomInfoGenerator randomInfoGenerator = new RandomInfoGenerator();
-        for (int i = 0; i < n; i++) {
-            contactInfos.add(randomInfoGenerator.contactInfo());
-        }
-
+    public List<ContactInfo> getContactInfos() {
         return contactInfos;
     }
 
     // Acquire READ_CONTACTS Permissions
     private void acquirePermissions() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CONTACTS)
-                != PackageManager.PERMISSION_GRANTED) {
 
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_CONTACTS)) {
+        boolean granted = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)
+                          == PackageManager.PERMISSION_GRANTED;
+        if (!granted) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_CONTACTS},
+                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
 
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
+            return;
+        }
 
-            } else {
+        displayContacts();
+    }
 
-                // No explanation needed, we can request the permission.
-
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.READ_CONTACTS},
-                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                   displayContacts();
+                } else {
+                    String msg = "Permissions required for application to function";
+                    Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                break;
             }
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
     // Get Contact Info from phone
     // TODO: put all of this into a cursor loader
     private List<ContactInfo> retrieveContactInfo() {
-        List<ContactInfo> contactInfos = new ArrayList<>();
+        contactInfos.clear();
 
         ContentResolver cr = this.getContentResolver();
         String OrderBy = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC";
