@@ -1,11 +1,14 @@
 package g1736229.elderlyui;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
+
+import java.util.List;
+
 
 /**
  * Created by jaspreet on 18/10/17.
@@ -13,13 +16,15 @@ import android.widget.ImageView;
 
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
+    private List<ContactInfo> contactInfos;
 
-    public ImageAdapter(Context c) {
-        mContext = c;
+    public ImageAdapter(Context mContext, List<ContactInfo> contactInfos) {
+        this.mContext = mContext;
+        this.contactInfos = contactInfos;
     }
 
     public int getCount() {
-        return mThumbIds.length;
+        return contactInfos.size();
     }
 
     public Object getItem(int position) {
@@ -27,28 +32,30 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     // create a new ImageView for each item referenced by the Adapter
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ContactImageView contactImageView;
-        if (convertView == null) {
-            // if it's not recycled, initialize some attributes
-            contactImageView = new ContactImageView(mContext);
-            contactImageView.setLayoutParams(new GridView.LayoutParams(200, 200));
-            // TODO: fix warping of images when transformed into squares
-            contactImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            contactImageView.setPadding(20, 20, 20, 20);
+    public View getView(int position, View view, ViewGroup parent) {
+        ImageView imageView;
 
+        if (view == null) {
+            view = new SquareImageView(mContext);
+            imageView = (ImageView) view;
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
-            contactImageView = (ContactImageView) convertView;
+            imageView = (ImageView) view;
         }
 
-        contactImageView.setImageResource(mThumbIds[position]);
-        ContactInfo contactInfo = new ContactInfo("x", "" + position, "y");
-        contactImageView.setContactInfo(contactInfo);
-        return contactImageView;
+        setImageViewToContactImage(imageView, contactInfos.get(position).getPicture());
+
+        // uncomment if you want the dogs back
+        //imageView.setImageResource(mThumbIds[position]);
+
+        // uncomment if you want random colours
+        //RandomInfoGenerator randomInfoGenerator = new RandomInfoGenerator(200, 200);
+        //squareImageView.setImageBitmap(randomInfoGenerator.solidColorBitmap());
+        return imageView;
     }
 
     // references to our images
@@ -65,5 +72,13 @@ public class ImageAdapter extends BaseAdapter {
             R.drawable.sample_4, R.drawable.sample_5,
             R.drawable.sample_6, R.drawable.sample_7
     };
+
+    private void setImageViewToContactImage(ImageView imageView, Bitmap contactImage) {
+       if (contactImage == null) {
+           imageView.setImageResource(R.drawable.blank_profile);
+       } else {
+           imageView.setImageBitmap(contactImage);
+       }
+    }
 
 }

@@ -1,18 +1,29 @@
 package g1736229.elderlyui;
 
+import android.graphics.Bitmap;
+
+import java.io.Serializable;
+
 /**
  * Created by jaspreet on 18/10/17.
  */
 
-public class ContactInfo {
+public class ContactInfo implements Serializable {
+    private String id;
     private String name;
     private String phoneNumber;
     private String email;
+    private Bitmap picture;
 
-    public ContactInfo(String name, String phoneNumber, String email) {
+    public ContactInfo(String id, String name, String phoneNumber, String email, Bitmap picture) {
+        this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.picture = picture;
+    }
+
+    public ContactInfo() {
     }
 
     public String getName() {
@@ -31,12 +42,24 @@ public class ContactInfo {
         this.phoneNumber = phoneNumber;
     }
 
+    public Bitmap getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Bitmap picture) {
+        this.picture = picture;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public ContactInfo createSerialisbleCopy() {
+        return new ContactInfo(id, name, phoneNumber, email, null);
     }
 
     @Override
@@ -47,4 +70,6 @@ public class ContactInfo {
                 ", email='" + email + '\'' +
                 '}';
     }
+
+
 }
