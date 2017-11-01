@@ -38,7 +38,7 @@ public class ContactsActivity extends AppCompatActivity {
     private void displayContacts() {
 
         //injects some arbitrary contacts
-        DeviceContacts.initialiseSampleContactData(this);
+        //DeviceContacts.initialiseSampleContactData(this);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         gridView = (GridView) findViewById(R.id.gridview);
@@ -124,7 +124,7 @@ public class ContactsActivity extends AppCompatActivity {
     // Send selected contact info to next activity
     public void sendContactInfo(ContactInfo contactInfo) {
         Intent intent = new Intent(this, DisplayContactInfo.class);
-        intent.putExtra(EXTRA_MESSAGE, contactInfo);
+        intent.putExtra(EXTRA_MESSAGE, contactInfo.createSerialisbleCopy());
         startActivity(intent);
     }
 

@@ -1,5 +1,7 @@
 package g1736229.elderlyui;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 /**
@@ -11,12 +13,14 @@ public class ContactInfo implements Serializable {
     private String name;
     private String phoneNumber;
     private String email;
+    private Bitmap picture;
 
-    public ContactInfo(String id, String name, String phoneNumber, String email) {
+    public ContactInfo(String id, String name, String phoneNumber, String email, Bitmap picture) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.picture = picture;
     }
 
     public ContactInfo() {
@@ -38,12 +42,24 @@ public class ContactInfo implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+    public Bitmap getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Bitmap picture) {
+        this.picture = picture;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public ContactInfo createSerialisbleCopy() {
+        return new ContactInfo(id, name, phoneNumber, email, null);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package g1736229.elderlyui;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -46,9 +47,14 @@ public class ImageAdapter extends BaseAdapter {
             imageView = (ImageView) view;
         }
 
-        RandomInfoGenerator randomInfoGenerator = new RandomInfoGenerator(200, 200);
-        imageView.setImageResource(mThumbIds[position]);
-//        squareImageView.setImageBitmap(randomInfoGenerator.solidColorBitmap());
+        setImageViewToContactImage(imageView, contactInfos.get(position).getPicture());
+
+        // uncomment if you want the dogs back
+        //imageView.setImageResource(mThumbIds[position]);
+
+        // uncomment if you want random colours
+        //RandomInfoGenerator randomInfoGenerator = new RandomInfoGenerator(200, 200);
+        //squareImageView.setImageBitmap(randomInfoGenerator.solidColorBitmap());
         return imageView;
     }
 
@@ -66,5 +72,13 @@ public class ImageAdapter extends BaseAdapter {
             R.drawable.sample_4, R.drawable.sample_5,
             R.drawable.sample_6, R.drawable.sample_7
     };
+
+    private void setImageViewToContactImage(ImageView imageView, Bitmap contactImage) {
+       if (contactImage == null) {
+           imageView.setImageResource(R.drawable.blank_profile);
+       } else {
+           imageView.setImageBitmap(contactImage);
+       }
+    }
 
 }

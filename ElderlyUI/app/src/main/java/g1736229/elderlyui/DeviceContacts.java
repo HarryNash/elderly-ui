@@ -27,14 +27,14 @@ public class DeviceContacts {
 
 
     public static void initialiseSampleContactData(Context context) {
-        addContactData(context, new ContactInfo("001", "Aleksandar", "02079460498", "aleks@abc.com"));
-        addContactData(context, new ContactInfo("002", "Maria", "02079461235", "maria@abc.com"));
-        addContactData(context, new ContactInfo("003", "Tatiana", "02079423456", "tatiana@abc.com"));
-        addContactData(context, new ContactInfo("004", "Borislav", "02079456789", "borislav@abc.com"));
-        addContactData(context, new ContactInfo("005", "Silvana", "02079402364", "silvana@abc.com"));
-        addContactData(context, new ContactInfo("006", "Krasimira", "02079445623", "krasimira@abc.com"));
-        addContactData(context, new ContactInfo("007", "Richard", "02079411447", "richard@abc.com"));
-        addContactData(context, new ContactInfo("008", "Tom", "02079425896", "tom@abc.com"));
+        addContactData(context, new ContactInfo("001", "Aleksandar", "02079460498", "aleks@abc.com", null));
+        addContactData(context, new ContactInfo("002", "Maria", "02079461235", "maria@abc.com", null));
+        addContactData(context, new ContactInfo("003", "Tatiana", "02079423456", "tatiana@abc.com", null));
+        addContactData(context, new ContactInfo("004", "Borislav", "02079456789", "borislav@abc.com", null));
+        addContactData(context, new ContactInfo("005", "Silvana", "02079402364", "silvana@abc.com", null));
+        addContactData(context, new ContactInfo("006", "Krasimira", "02079445623", "krasimira@abc.com", null));
+        addContactData(context, new ContactInfo("007", "Richard", "02079411447", "richard@abc.com", null));
+        addContactData(context, new ContactInfo("008", "Tom", "02079425896", "tom@abc.com", null));
     }
 
     public static void addContactData(Context context, ContactInfo contactInfo) {

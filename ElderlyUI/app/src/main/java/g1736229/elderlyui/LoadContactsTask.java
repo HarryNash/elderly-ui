@@ -1,13 +1,18 @@
 package g1736229.elderlyui;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -73,7 +78,7 @@ public class LoadContactsTask extends AsyncTask<Void, Void, Void> {
                 int nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
                 int hasPhoneNumberIndex = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
 
-                String id = cursor.getString(idIndex);
+                Long id = cursor.getLong(idIndex);
                 String name = cursor.getString(nameIndex);
                 String phoneNumber = null;
 
@@ -93,8 +98,10 @@ public class LoadContactsTask extends AsyncTask<Void, Void, Void> {
                     pCursor.close();
                 }
 
+                Bitmap picture = loadProfilePicture(cr, id);
+
                 // add contact info to list of info in the activity
-                contactInfos.add(new ContactInfo(id, name, phoneNumber, null));
+                contactInfos.add(new ContactInfo(id.toString(), name, phoneNumber, null, picture));
 
                 // tell the UI that the list of contact info has been updated
                 this.publishProgress();
@@ -104,5 +111,14 @@ public class LoadContactsTask extends AsyncTask<Void, Void, Void> {
         }
 
         return contactInfos;
+    }
+
+    private Bitmap loadProfilePicture(ContentResolver cr, long id) {
+        Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
+        InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri);
+        if (input == null) {
+            return null;
+        }
+        return BitmapFactory.decodeStream(input);
     }
 }
