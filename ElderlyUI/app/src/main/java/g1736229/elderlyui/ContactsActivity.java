@@ -124,7 +124,7 @@ public class ContactsActivity extends AppCompatActivity {
     // Send selected contact info to next activity
     public void sendContactInfo(ContactInfo contactInfo) {
         Intent intent = new Intent(this, DisplayContactInfo.class);
-        intent.putExtra(EXTRA_MESSAGE, contactInfo.createSerialisbleCopy());
+        intent.putExtra(EXTRA_MESSAGE, contactInfo.createSerialisableCopy());
         startActivity(intent);
     }
 
