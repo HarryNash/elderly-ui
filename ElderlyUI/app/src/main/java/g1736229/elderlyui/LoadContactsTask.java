@@ -1,8 +1,6 @@
 package g1736229.elderlyui;
 
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
@@ -19,9 +17,9 @@ import java.util.List;
 // Retrieve contacts in parallel as the UI updates
 public class LoadContactsTask extends AsyncTask<Void, Void, Void> {
 
-    MainActivity activity;
+    ContactsActivity activity;
 
-    public LoadContactsTask(MainActivity activity) {
+    public LoadContactsTask(ContactsActivity activity) {
         this.activity = activity;
     }
 

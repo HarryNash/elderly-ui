@@ -1,19 +1,13 @@
 package g1736229.elderlyui;
 
 import android.Manifest;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -23,9 +17,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class ContactsActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "g17361229.elderlyui.MESSAGE";
-    private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 5; // just a random number
+    private final int PERMISSIONS_READ_WRITE_CONTACTS = 5; // Code for Contacts Permissions
 
     private final List<ContactInfo> contactInfos = new ArrayList<>();
     private ImageAdapter imageAdapter;
@@ -36,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_contacts);
         this.acquirePermissions();
     }
 
@@ -90,11 +84,12 @@ public class MainActivity extends AppCompatActivity {
                           == PackageManager.PERMISSION_GRANTED;
         granted &= ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CONTACTS)
                    == PackageManager.PERMISSION_GRANTED;
-        if (!granted) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS},
-                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
 
+        String[] requestedPermissions = new String[]{Manifest.permission.READ_CONTACTS,
+                                                     Manifest.permission.WRITE_CONTACTS};
+
+        if (!granted) {
+            ActivityCompat.requestPermissions(this, requestedPermissions, PERMISSIONS_READ_WRITE_CONTACTS);
             return;
         }
 
@@ -109,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                                            @NonNull int[] grantResults) {
         // get the status of our permission request
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
+            case PERMISSIONS_READ_WRITE_CONTACTS: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // if permission granted, display contacts
                     displayContacts();
