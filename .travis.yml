@@ -9,5 +9,5 @@ android:
     - android-26
 
 script:
-   - chmod +x gradlew
+   - chmod +x ElderlyUI/gradlew
    - ./ElderlyUI/gradlew build
