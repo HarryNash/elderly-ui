@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA"> </uses-permission>
 
     <application
         android:allowBackup="true"
@@ -21,6 +22,7 @@
         </activity>
         <activity android:name=".DisplayContactInfo" />
         <activity android:name=".ContactsActivity" />
+        <activity android:name=".FeatureSelection" />
     </application>
 
 </manifest>

@@ -27,7 +27,7 @@ public class ContactsActivity extends AppCompatActivity {
     private ImageAdapter imageAdapter;
     private GridView gridView;
     private ProgressBar progressBar;
-    private String font = "12";
+    private String font = "14";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class ContactsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contacts);
 
         Intent intent = getIntent();
-        font = intent.getStringExtra(ImpairmentDetectionActivity.EXTRA_MESSAGE);
+        font = intent.getStringExtra(ImpairmentDetectionActivity.EXTRA_TEXT_SIZE);
         this.acquirePermissions();
     }
 

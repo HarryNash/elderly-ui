@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 public class ImpairmentDetectionActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+    public static final String EXTRA_TEXT_SIZE = "com.example.myfirstapp.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,20 +15,20 @@ public class ImpairmentDetectionActivity extends AppCompatActivity {
     }
 
     public void smallFont(View view) {
-        Intent intent = new Intent(this, ContactsActivity.class);
-        intent.putExtra(EXTRA_MESSAGE, "14");
+        Intent intent = new Intent(this, FeatureSelection.class);
+        intent.putExtra(EXTRA_TEXT_SIZE, "14");
         startActivity(intent);
     }
 
     public void mediumFont(View view) {
-        Intent intent = new Intent(this, ContactsActivity.class);
-        intent.putExtra(EXTRA_MESSAGE, "20");
+        Intent intent = new Intent(this, FeatureSelection.class);
+        intent.putExtra(EXTRA_TEXT_SIZE, "20");
         startActivity(intent);
     }
 
     public void largeFont(View view) {
-        Intent intent = new Intent(this, ContactsActivity.class);
-        intent.putExtra(EXTRA_MESSAGE, "30");
+        Intent intent = new Intent(this, FeatureSelection.class);
+        intent.putExtra(EXTRA_TEXT_SIZE, "30");
         startActivity(intent);
     }
 
