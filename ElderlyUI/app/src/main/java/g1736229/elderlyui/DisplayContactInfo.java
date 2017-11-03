@@ -1,12 +1,18 @@
 package g1736229.elderlyui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class DisplayContactInfo extends AppCompatActivity {
+
+    String theNumber = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +31,32 @@ public class DisplayContactInfo extends AppCompatActivity {
         nameText.setTextSize(font);
 
         TextView phoneText = (TextView) findViewById(R.id.textView2);
+        theNumber = convertNull(contactInfo.getPhoneNumber());
         phoneText.setText(convertNull(contactInfo.getPhoneNumber()));
         phoneText.setTextSize(font);
 
         TextView emailText = (TextView) findViewById(R.id.textView3);
         emailText.setText(convertNull(contactInfo.getEmail()));
         emailText.setTextSize(font);
+
+        int widthSize = font * 8;
+        int heightSize = font * 6;
+
+        final float scale = getResources().getDisplayMetrics().density;
+        int heightDp = (int) (heightSize * scale + 0.5f);
+        int widthDp = (int) (widthSize * scale + 0.5f);
+
+        Button b = (Button)findViewById(R.id.button6);
+        b.setTextSize(font);
+        ViewGroup.LayoutParams params = b.getLayoutParams();//b========>ur button
+        params.height = heightDp;
+        params.width = widthDp;
+        b.setLayoutParams(params);
+        b.requestLayout();
+    }
+
+    public void makeCall(View view) {
+        startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", theNumber, null)));
     }
 
     private String convertNull(String string) {
