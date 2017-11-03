@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -19,18 +20,22 @@ import java.util.List;
 
 public class ContactsActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "g17361229.elderlyui.MESSAGE";
+    public static final String EXTRA_FONT = "g17361229.elderlyui.FONT";
     private final int PERMISSIONS_READ_WRITE_CONTACTS = 5; // Code for Contacts Permissions
 
     private final List<ContactInfo> contactInfos = new ArrayList<>();
     private ImageAdapter imageAdapter;
     private GridView gridView;
     private ProgressBar progressBar;
+    private String font = "12";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
+
+        Intent intent = getIntent();
+        font = intent.getStringExtra(ImpairmentDetectionActivity.EXTRA_MESSAGE);
         this.acquirePermissions();
     }
 
@@ -125,6 +130,7 @@ public class ContactsActivity extends AppCompatActivity {
     public void sendContactInfo(ContactInfo contactInfo) {
         Intent intent = new Intent(this, DisplayContactInfo.class);
         intent.putExtra(EXTRA_MESSAGE, contactInfo.createSerialisbleCopy());
+        intent.putExtra(EXTRA_FONT, font);
         startActivity(intent);
     }
 
