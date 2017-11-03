@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -22,7 +23,9 @@ public class ContactsActivity extends AppCompatActivity {
     private final int PERMISSIONS_READ_WRITE_CONTACTS = 5; // Code for Contacts Permissions
 
     private final List<ContactInfo> contactInfos = new ArrayList<>();
-    private ImageAdapter imageAdapter;
+
+    // rename this variable and its getter
+    private BaseAdapter imageAdapter;
     private GridView gridView;
     private ProgressBar progressBar;
 
@@ -64,7 +67,7 @@ public class ContactsActivity extends AppCompatActivity {
         return contactInfos;
     }
 
-    public ImageAdapter getImageAdapter() {
+    public BaseAdapter getImageAdapter() {
         return imageAdapter;
     }
 
