@@ -30,6 +30,7 @@ public class ContactsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        DeviceContacts.initialiseSampleContactData(this);
         setContentView(R.layout.activity_contacts);
         this.acquirePermissions();
     }
