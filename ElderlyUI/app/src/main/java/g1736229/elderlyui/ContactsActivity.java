@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -24,7 +25,9 @@ public class ContactsActivity extends AppCompatActivity {
     private final int PERMISSIONS_READ_WRITE_CONTACTS = 5; // Code for Contacts Permissions
 
     private final List<ContactInfo> contactInfos = new ArrayList<>();
-    private ImageAdapter imageAdapter;
+
+    // rename this variable and its getter
+    private BaseAdapter imageAdapter;
     private GridView gridView;
     private ProgressBar progressBar;
     private String font = "14";
@@ -70,7 +73,7 @@ public class ContactsActivity extends AppCompatActivity {
         return contactInfos;
     }
 
-    public ImageAdapter getImageAdapter() {
+    public BaseAdapter getImageAdapter() {
         return imageAdapter;
     }
 
@@ -130,8 +133,7 @@ public class ContactsActivity extends AppCompatActivity {
     // Send selected contact info to next activity
     public void sendContactInfo(ContactInfo contactInfo) {
         Intent intent = new Intent(this, DisplayContactInfo.class);
-        intent.putExtra(EXTRA_MESSAGE, contactInfo.createSerialisbleCopy());
-        intent.putExtra(EXTRA_FONT, font);
+        intent.putExtra(EXTRA_MESSAGE, contactInfo.createSerialisableCopy());
         startActivity(intent);
     }
 
