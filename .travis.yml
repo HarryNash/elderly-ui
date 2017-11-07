@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
 language: android
 android:
   components:
@@ -10,4 +13,8 @@ android:
 
 script:
    - chmod +x ElderlyUI/gradlew
+<<<<<<< HEAD
    - ./ElderlyUI/gradlew build
+=======
+   - ./ElderlyUI/gradlew build
+>>>>>>> development
