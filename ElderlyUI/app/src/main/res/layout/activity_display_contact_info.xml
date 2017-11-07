@@ -48,39 +48,5 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.0" />
 
-    <Button
-        android:id="@+id/email_button"
-        android:layout_width="193dp"
-        android:layout_height="46dp"
-        android:onClick="emailPerson[MainActivity]"
-        android:text="email"
-        tools:layout_editor_absoluteX="96dp"
-        tools:layout_editor_absoluteY="404dp" />
 
-    <Button
-        android:id="@+id/videocall_button"
-        android:layout_width="193dp"
-        android:layout_height="46dp"
-        android:onClick="videoCallPerson[MainActivity]"
-        android:text="video call"
-        tools:layout_editor_absoluteX="96dp"
-        tools:layout_editor_absoluteY="306dp" />
-
-    <Button
-        android:id="@+id/message_call"
-        android:layout_width="193dp"
-        android:layout_height="46dp"
-        android:onClick="messagePerson[MainActivity]"
-        android:text="message"
-        tools:layout_editor_absoluteX="96dp"
-        tools:layout_editor_absoluteY="211dp" />
-
-    <Button
-        android:id="@+id/call_button"
-        android:layout_width="193dp"
-        android:layout_height="46dp"
-        android:onClick="callPerson[MainActivity]"
-        android:text="call"
-        tools:layout_editor_absoluteX="96dp"
-        tools:layout_editor_absoluteY="113dp" />
 </android.support.constraint.ConstraintLayout>
