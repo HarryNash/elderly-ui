@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="g1736229.elderlyui.FeatureSelection">
+    tools:context="g1736229.elderlyui.FeatureSelectionActivity">
 
     <Button
         android:id="@+id/gallery"

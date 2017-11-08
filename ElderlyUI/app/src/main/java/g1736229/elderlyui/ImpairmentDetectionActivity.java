@@ -31,7 +31,7 @@ public class ImpairmentDetectionActivity extends AppCompatActivity {
     }
 
     public void selectCustomFont(String componentSize) {
-        Intent intent = new Intent(this, FeatureSelection.class);
+        Intent intent = new Intent(this, FeatureSelectionActivity.class);
         intent.putExtra(EXTRA_COMPONENT_SIZE, componentSize);
         startActivity(intent);
     }

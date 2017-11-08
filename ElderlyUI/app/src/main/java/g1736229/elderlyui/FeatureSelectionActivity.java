@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class FeatureSelection extends AppCompatActivity {
+public class FeatureSelectionActivity extends AppCompatActivity {
     String componentSize;
 
     @Override
@@ -27,7 +27,7 @@ public class FeatureSelection extends AppCompatActivity {
     }
 
     public void openContactsActivity(View v) {
-        Intent intent = new Intent(this, ContactsActivity.class);
+        Intent intent = new Intent(this, ContactSelectionActivity.class);
         intent.putExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE, componentSize);
         startActivity(intent);
     }

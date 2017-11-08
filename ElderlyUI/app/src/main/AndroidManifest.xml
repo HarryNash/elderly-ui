@@ -21,9 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DisplayContactInfo" />
-        <activity android:name=".ContactsActivity" />
-        <activity android:name=".FeatureSelection" />
+        <activity android:name=".DisplayContactInfoActivity" />
+        <activity android:name=".ContactSelectionActivity" />
+        <activity android:name=".FeatureSelectionActivity" />
     </application>
 
 </manifest>
