@@ -12,6 +12,10 @@ public class ImpairmentDetectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_impairment_detection);
+
+        ComponentResizing.resizeButton("small", findViewById(R.id.small), getResources());
+        ComponentResizing.resizeButton("medium", findViewById(R.id.medium), getResources());
+        ComponentResizing.resizeButton("large", findViewById(R.id.large), getResources());
     }
 
     public void selectSmallComponents(View view) {
