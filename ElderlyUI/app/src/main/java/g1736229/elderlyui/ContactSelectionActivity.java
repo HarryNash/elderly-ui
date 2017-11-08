@@ -17,20 +17,24 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactsActivity extends AppCompatActivity {
+public class ContactSelectionActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "g17361229.elderlyui.MESSAGE";
+    public static final String EXTRA_COMPONENT_SIZE = "g17361229.elderlyui.TEXT_SIZE";
     private final int PERMISSIONS_READ_WRITE_CONTACTS = 5; // Code for Contacts Permissions
 
     private final List<ContactInfo> contactInfos = new ArrayList<>();
     private ImageAdapter imageAdapter;
     private GridView gridView;
     private ProgressBar progressBar;
+    private String componentSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contacts);
+        setContentView(R.layout.activity_contact_selection);
+
+        Intent intent = getIntent();
+        componentSize = intent.getStringExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE);
         this.acquirePermissions();
     }
 
@@ -123,8 +127,9 @@ public class ContactsActivity extends AppCompatActivity {
 
     // Send selected contact info to next activity
     public void sendContactInfo(ContactInfo contactInfo) {
-        Intent intent = new Intent(this, DisplayContactInfo.class);
+        Intent intent = new Intent(this, DisplayContactInfoActivity.class);
         intent.putExtra(EXTRA_MESSAGE, contactInfo.createSerialisbleCopy());
+        intent.putExtra(EXTRA_COMPONENT_SIZE, componentSize);
         startActivity(intent);
     }
 
