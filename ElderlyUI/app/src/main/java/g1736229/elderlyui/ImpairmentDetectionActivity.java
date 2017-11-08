@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 public class ImpairmentDetectionActivity extends AppCompatActivity {
-    public static final String EXTRA_TEXT_SIZE = "com.example.myfirstapp.MESSAGE";
+    public static final String EXTRA_COMPONENT_SIZE = "g17361229.elderlyui.TEXT_SIZE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,22 +14,21 @@ public class ImpairmentDetectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_impairment_detection);
     }
 
-    public void smallFont(View view) {
-        Intent intent = new Intent(this, FeatureSelection.class);
-        intent.putExtra(EXTRA_TEXT_SIZE, "14");
-        startActivity(intent);
+    public void selectSmallComponents(View view) {
+        selectCustomFont("small");
     }
 
-    public void mediumFont(View view) {
-        Intent intent = new Intent(this, FeatureSelection.class);
-        intent.putExtra(EXTRA_TEXT_SIZE, "20");
-        startActivity(intent);
+    public void selectMediumComponents(View view) {
+        selectCustomFont("medium");
     }
 
-    public void largeFont(View view) {
-        Intent intent = new Intent(this, FeatureSelection.class);
-        intent.putExtra(EXTRA_TEXT_SIZE, "30");
-        startActivity(intent);
+    public void selectLargeComponents(View view) {
+        selectCustomFont("large");
     }
 
+    public void selectCustomFont(String componentSize) {
+        Intent intent = new Intent(this, FeatureSelection.class);
+        intent.putExtra(EXTRA_COMPONENT_SIZE, componentSize);
+        startActivity(intent);
+    }
 }

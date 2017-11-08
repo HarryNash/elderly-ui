@@ -7,28 +7,28 @@
     tools:context="g1736229.elderlyui.FeatureSelection">
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/gallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:onClick="openGalleryActivity"
-        android:text="Gallery"
+        android:text="gallery"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/contacts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"
         android:layout_marginTop="8dp"
         android:onClick="openContactsActivity"
-        android:text="Contacts"
+        android:text="contacts"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
+        app:layout_constraintTop_toBottomOf="@+id/gallery" />
 </android.support.constraint.ConstraintLayout>
