@@ -8,9 +8,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class DisplayContactInfoActivity extends AppCompatActivity {
     String componentSize;
     String theNumber = "";
+    List<String> msgs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +46,28 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         ComponentResizing.resizeButton(componentSize, findViewById(R.id.button6), getResources());
         ComponentResizing.resizeButton(componentSize, findViewById(R.id.button7), getResources());
 
-        String msg = "Permissions required for application to function";
+        initMsgs();
+        callClippy();
+    }
+
+    /** This calls a random
+     *
+     */
+    public void callClippy() {
+        int randomNum = ThreadLocalRandom.current().nextInt(0, msgs.size());
+        String msg = msgs.get(randomNum);
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
         toast.show();
+    }
+
+    public void initMsgs() {
+        String msg;
+        msg = "Permissions required for application to function";
+        msgs.add(msg);
+        msg = "Hello";
+        msgs.add(msg);
+        msg = "Fake";
+        msgs.add(msg);
     }
 
     public void makeCall(View view) {
