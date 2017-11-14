@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DisplayContactInfoActivity extends AppCompatActivity {
     String componentSize;
@@ -38,10 +39,22 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         emailText.setTextSize(textSize);
 
         ComponentResizing.resizeButton(componentSize, findViewById(R.id.button6), getResources());
+        ComponentResizing.resizeButton(componentSize, findViewById(R.id.button7), getResources());
+
+        String msg = "Permissions required for application to function";
+        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
+        toast.show();
     }
 
     public void makeCall(View view) {
         startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", theNumber, null)));
+    }
+
+    public void makeVideoCall(View view) {
+        Intent videoCallIntent = new Intent("com.android.phone.videocall");
+        videoCallIntent.putExtra("videocall", true);
+        videoCallIntent.setData(Uri.parse("tel:" + theNumber));
+        startActivity(videoCallIntent);
     }
 
     private String convertNull(String string) {
