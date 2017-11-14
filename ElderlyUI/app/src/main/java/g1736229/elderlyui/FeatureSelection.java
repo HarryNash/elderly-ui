@@ -8,8 +8,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.beardedhen.androidbootstrap.BootstrapLabel;
+
+import static com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapHeading.H2;
+import static com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapHeading.H6;
+
 public class FeatureSelection extends AppCompatActivity {
-    String textSize = "14";
+    String textSize = "16";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +23,7 @@ public class FeatureSelection extends AppCompatActivity {
 
         Intent intent = getIntent();
         textSize = intent.getStringExtra(ImpairmentDetectionActivity.EXTRA_TEXT_SIZE);
-
+        //String headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
 
         int widthSize = Integer.parseInt(textSize) * 8;
         int heightSize = Integer.parseInt(textSize) * 6;
@@ -27,7 +32,7 @@ public class FeatureSelection extends AppCompatActivity {
         int heightDp = (int) (heightSize * scale + 0.5f);
         int widthDp = (int) (widthSize * scale + 0.5f);
 
-        Button b = (Button)findViewById(R.id.button4);
+        BootstrapLabel b = (BootstrapLabel)findViewById(R.id.button4);
         b.setTextSize(Integer.parseInt(textSize));
         ViewGroup.LayoutParams params = b.getLayoutParams();//b========>ur button
         params.height = heightDp;
@@ -35,8 +40,9 @@ public class FeatureSelection extends AppCompatActivity {
         b.setLayoutParams(params);
         b.requestLayout();
 
-        Button c = (Button)findViewById(R.id.button5);
-        c.setTextSize(Integer.parseInt(textSize));
+        BootstrapLabel c = (BootstrapLabel)findViewById(R.id.button5);
+        c.setBootstrapHeading(H2);
+        //c.setBootstrapHeading(Integer.parseInt(textSize));
         ViewGroup.LayoutParams params2 = c.getLayoutParams();//b========>ur button
         params2.height = heightDp;
         params2.width = widthDp;
