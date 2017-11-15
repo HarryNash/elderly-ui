@@ -10,6 +10,7 @@ import android.widget.TextView;
 public class DisplayContactInfoActivity extends AppCompatActivity {
     String componentSize;
     String theNumber = "";
+    private String msgBody;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,17 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
 
     public void makeCall(View view) {
         startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", theNumber, null)));
+    }
+
+
+
+    public void textMessage (View view) {
+        Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
+        smsIntent.addCategory(Intent.CATEGORY_DEFAULT);
+        smsIntent.setType("vnd.android-dir/mms-sms");
+        smsIntent.setData(Uri.parse("sms:" + theNumber));
+        smsIntent.putExtra("sms_body", msgBody);
+        startActivity(smsIntent);
     }
 
     private String convertNull(String string) {
