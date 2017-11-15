@@ -1,13 +1,16 @@
 package g1736229.elderlyui;
 
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.AlarmClock;
+import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,6 +24,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
+import static android.R.attr.type;
 import static java.lang.Thread.sleep;
 
 public class DisplayContactInfoActivity extends AppCompatActivity {
@@ -71,8 +75,9 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         initMsgs();
         callClippy();
 
-        animateVideoCallButton();
+        //animateVideoCallButton();
     }
+
 
     public void animateVideoCallButton() {
         new Thread( new Runnable(){
@@ -188,8 +193,38 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
     }
 
     public void makeVideoCall(View view) {
+        Log.d("xyz", "here");
         startVoiceCallTime = System.nanoTime();
-        //startActivityForResult(videoCallIntent, VIDEO_CALL_CODE);
+
+
+        ContentResolver resolver = this.getContentResolver();
+        Cursor cursor = resolver.query(
+                ContactsContract.Data.CONTENT_URI,
+                null, null, null,
+                ContactsContract.Contacts.DISPLAY_NAME);
+
+        //Now read data from cursor like
+
+        while (cursor.moveToNext()) {
+            long _id = cursor.getLong(cursor.getColumnIndex(ContactsContract.Data._ID));
+            String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
+            String mimeType = cursor.getString(cursor.getColumnIndex(ContactsContract.Data.MIMETYPE));
+
+            Log.d("Data", _id+ " "+ displayName + " " + mimeType );
+        }
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+
+        // the _ids you save goes here at the end of /data/12562
+        //intent.setDataAndType(Uri.parse("content://com.android.contacts/data/_id"),
+        //        "vnd.android.cursor.item/vnd.com.whatsapp.voip.call");
+        intent.setDataAndType(Uri.parse("content://com.android.contacts/data/21"),
+                "vnd.android.cursor.item/vnd.com.whatsapp.voip.call");
+
+        intent.setPackage("com.whatsapp");
+
+        startActivityForResult(intent, VIDEO_CALL_CODE);
     }
 
     private String convertNull(String string) {
