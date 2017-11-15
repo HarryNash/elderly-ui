@@ -21,7 +21,7 @@ public class FeatureSelectionActivity extends AppCompatActivity {
     }
 
     public void openGalleryActivity(View v) {
-        Intent cameraIntent = new Intent(Intent.ACTION_PICK,
+        Intent cameraIntent = new Intent(Intent.ACTION_VIEW,
                 android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivity(cameraIntent);
     }
