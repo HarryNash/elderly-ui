@@ -22,9 +22,9 @@ import java.util.List;
 // Retrieve contacts in parallel as the UI updates
 public class LoadContactsTask extends AsyncTask<Void, Void, Void> {
 
-    ContactsActivity activity;
+    ContactSelectionActivity activity;
 
-    public LoadContactsTask(ContactsActivity activity) {
+    public LoadContactsTask(ContactSelectionActivity activity) {
         this.activity = activity;
     }
 
