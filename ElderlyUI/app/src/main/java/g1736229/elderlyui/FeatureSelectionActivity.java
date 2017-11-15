@@ -7,6 +7,7 @@ import android.view.View;
 
 public class FeatureSelectionActivity extends AppCompatActivity {
     String componentSize;
+    final int GALLERY_CODE = 67;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class FeatureSelectionActivity extends AppCompatActivity {
     public void openGalleryActivity(View v) {
         Intent cameraIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        startActivity(cameraIntent);
+        startActivityForResult(cameraIntent, GALLERY_CODE);
     }
 
     public void openContactsActivity(View v) {
