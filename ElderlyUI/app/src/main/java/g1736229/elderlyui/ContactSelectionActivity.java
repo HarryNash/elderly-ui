@@ -51,6 +51,7 @@ public class ContactSelectionActivity extends AppCompatActivity {
         gridView = (GridView) findViewById(R.id.gridview);
         imageAdapter = new ImageAdapter(this, contactInfos);
         gridView.setAdapter(imageAdapter);
+        setGridColumnWidth(componentSize, gridView);
 
         LoadContactsTask loadContactsTask = new LoadContactsTask(this);
         loadContactsTask.execute();
@@ -65,6 +66,23 @@ public class ContactSelectionActivity extends AppCompatActivity {
                     sendContactInfo(new ContactInfo());
             }
         });
+    }
+
+    private void setGridColumnWidth(String sizeDescriptor, GridView gridView) {
+        int numOfColumns = 10;
+        switch (sizeDescriptor) {
+            case "small" :
+                numOfColumns = 3;
+                break;
+            case "medium" :
+                numOfColumns = 2;
+                break;
+            case "large" :
+                numOfColumns = 1;
+                break;
+        }
+
+        gridView.setNumColumns(numOfColumns);
     }
 
     public List<ContactInfo> getContactInfos() {
