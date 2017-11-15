@@ -33,6 +33,7 @@ public class ContactsActivity extends AppCompatActivity {
     private GridView gridView;
     private ProgressBar progressBar;
     private String font = "14";
+    String headingStyle = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class ContactsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         font = intent.getStringExtra(ImpairmentDetectionActivity.EXTRA_TEXT_SIZE);
+        headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
         this.acquirePermissions();
     }
 
@@ -137,6 +139,7 @@ public class ContactsActivity extends AppCompatActivity {
     public void sendContactInfo(ContactInfo contactInfo) {
         Intent intent = new Intent(this, DisplayContactInfo.class);
         intent.putExtra(EXTRA_MESSAGE, contactInfo.createSerialisableCopy());
+        intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
         startActivity(intent);
     }
 

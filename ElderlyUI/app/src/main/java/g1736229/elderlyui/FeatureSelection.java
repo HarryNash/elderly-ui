@@ -10,11 +10,15 @@ import android.widget.LinearLayout;
 
 import com.beardedhen.androidbootstrap.BootstrapLabel;
 
+import static android.R.attr.src;
 import static com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapHeading.H2;
 import static com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapHeading.H6;
+import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapHeading;
 
 public class FeatureSelection extends AppCompatActivity {
-    String textSize = "16";
+    String textSize = "14";
+    String headingStyle = null;
+    public static final String HEADING_STYLE = "g17361229.elderlyui.HEADING_STYLE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +27,8 @@ public class FeatureSelection extends AppCompatActivity {
 
         Intent intent = getIntent();
         textSize = intent.getStringExtra(ImpairmentDetectionActivity.EXTRA_TEXT_SIZE);
-        //String headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
+        headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
+        Headings headingsObj = new Headings();
 
         int widthSize = Integer.parseInt(textSize) * 8;
         int heightSize = Integer.parseInt(textSize) * 6;
@@ -33,7 +38,7 @@ public class FeatureSelection extends AppCompatActivity {
         int widthDp = (int) (widthSize * scale + 0.5f);
 
         BootstrapLabel b = (BootstrapLabel)findViewById(R.id.button4);
-        b.setTextSize(Integer.parseInt(textSize));
+        b.setBootstrapHeading(headingsObj.getCorrespondingHeadingClass(headingStyle));
         ViewGroup.LayoutParams params = b.getLayoutParams();//b========>ur button
         params.height = heightDp;
         params.width = widthDp;
@@ -41,8 +46,7 @@ public class FeatureSelection extends AppCompatActivity {
         b.requestLayout();
 
         BootstrapLabel c = (BootstrapLabel)findViewById(R.id.button5);
-        c.setBootstrapHeading(H2);
-        //c.setBootstrapHeading(Integer.parseInt(textSize));
+        c.setBootstrapHeading(headingsObj.getCorrespondingHeadingClass(headingStyle));
         ViewGroup.LayoutParams params2 = c.getLayoutParams();//b========>ur button
         params2.height = heightDp;
         params2.width = widthDp;
@@ -61,6 +65,7 @@ public class FeatureSelection extends AppCompatActivity {
     public void openContactsActivity(View v) {
         Intent intent = new Intent(this, ContactsActivity.class);
         intent.putExtra(ImpairmentDetectionActivity.EXTRA_TEXT_SIZE, textSize);
+        intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
         startActivity(intent);
     }
 

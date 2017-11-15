@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.beardedhen.androidbootstrap.BootstrapLabel;
+
 public class DisplayContactInfo extends AppCompatActivity {
 
     String theNumber = "";
@@ -26,6 +28,7 @@ public class DisplayContactInfo extends AppCompatActivity {
         Log.d("GANG", Integer.toString(font));
 
         // Capture the layout's TextView and set the string as its text
+
         TextView nameText = (TextView) findViewById(R.id.textView);
         nameText.setText(convertNull(contactInfo.getName()));
         nameText.setTextSize(font);
@@ -46,8 +49,11 @@ public class DisplayContactInfo extends AppCompatActivity {
         int heightDp = (int) (heightSize * scale + 0.5f);
         int widthDp = (int) (widthSize * scale + 0.5f);
 
-        Button b = (Button)findViewById(R.id.button6);
-        b.setTextSize(font);
+        String headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
+        Headings headingsObj = new Headings();
+
+        BootstrapLabel b = (BootstrapLabel)findViewById(R.id.button6);
+        b.setBootstrapHeading(headingsObj.getCorrespondingHeadingClass(headingStyle));
         ViewGroup.LayoutParams params = b.getLayoutParams();//b========>ur button
         params.height = heightDp;
         params.width = widthDp;
