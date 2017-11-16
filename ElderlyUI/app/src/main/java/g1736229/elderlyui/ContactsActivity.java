@@ -139,6 +139,7 @@ public class ContactsActivity extends AppCompatActivity {
     public void sendContactInfo(ContactInfo contactInfo) {
         Intent intent = new Intent(this, DisplayContactInfo.class);
         intent.putExtra(EXTRA_MESSAGE, contactInfo.createSerialisableCopy());
+        intent.putExtra(EXTRA_FONT, font);
         intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
         startActivity(intent);
     }
