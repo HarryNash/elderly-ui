@@ -1,8 +1,9 @@
 package g1736229.elderlyui;
 
+import android.content.Intent;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.ActivityNotFoundException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,8 +11,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
+import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,13 +27,14 @@ import java.util.concurrent.TimeUnit;
 import static g1736229.elderlyui.ContactSelectionActivity.EXTRA_COMPONENT_SIZE;
 import static g1736229.elderlyui.ContactSelectionActivity.EXTRA_MESSAGE;
 import static java.lang.Thread.sleep;
+import java.util.Locale;
 
 public class DisplayContactInfoActivity extends AppCompatActivity {
     public static final String CLIPPY_MESSAGE_OVERRIDE = "g17361229.elderlyui.CLIPPY_MESSAGE_OVERRIDE";
     private String componentSize;
     private ContactInfo contactInfo;
 
-    private String number;
+    private String phoneNumber = "";
     private String name;
     private long whatsAppID;
 
@@ -41,6 +43,13 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
     private int VIDEO_CALL_CODE = 55;
     private int PHONE_CALL_CODE = 83;
     private long startCallTime;
+
+
+    // User option for voice to text messaging
+    boolean voiceOnly = true;
+
+    // Code for voice input
+    final int REQ_CODE_SPEECH_INPUT = 10;
 
     Handler reminderHandler = new Handler();
 
@@ -61,7 +70,7 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         nameText.setTextSize(textSize);
 
         TextView phoneText = (TextView) findViewById(R.id.textView2);
-        number = convertNull(contactInfo.getPhoneNumber());
+        phoneNumber = convertNull(contactInfo.getPhoneNumber());
         phoneText.setText(convertNull(contactInfo.getPhoneNumber()));
         phoneText.setTextSize(textSize);
 
@@ -69,8 +78,10 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         emailText.setText(convertNull(contactInfo.getEmail()));
         emailText.setTextSize(textSize);
 
-        ComponentResizing.resizeButton(componentSize, findViewById(R.id.button6), getResources());
-        ComponentResizing.resizeButton(componentSize, findViewById(R.id.button7), getResources());
+        String headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
+        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.callButton), getResources());
+        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.messageButton), getResources());
+        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.button7), getResources());
 
         whatsAppID = getContactWhatsAppID();
         if (whatsAppID == -1) {
@@ -178,6 +189,7 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);//TODO
         float callLength = TimeUnit.SECONDS.convert(System.nanoTime() - startCallTime, TimeUnit.NANOSECONDS);
 
         if (requestCode == VIDEO_CALL_CODE) {
@@ -187,7 +199,7 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
-                                makeCall(findViewById(R.id.button6));
+                                makeCall(findViewById(R.id.callButton));
                                 break;
                         }
                     }
@@ -224,14 +236,32 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
                         .setNeutralButton("Remind me tomorrow", dialogClickListener).show();
             }
         }
+
+        if(requestCode == REQ_CODE_SPEECH_INPUT){
+            if (resultCode == RESULT_OK && data != null) {
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                Intent intent = createTextMessageIntent(phoneNumber);
+                intent.putExtra("sms_body", result.get(0));
+                startActivity(intent);
+            }
+        }
     }
 
     public void makeCall(View view) {
         startCallTime = System.nanoTime();
 
-        startActivityForResult(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", number, null)), PHONE_CALL_CODE);
+        startActivityForResult(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)), PHONE_CALL_CODE);
         //Intent cameraIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         //startActivityForResult(cameraIntent, PHONE_CALL_CODE);
+    }
+
+    public void makeText(View view) {
+        if (voiceOnly) {
+            startVoiceInput();
+        } else {
+            Intent intent = createTextMessageIntent(phoneNumber);
+            startActivity(intent);
+        }
     }
 
     public void makeVideoCall(View view) {
@@ -254,4 +284,26 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         }
         return string;
     }
+
+    private Intent createTextMessageIntent(String phoneNumber)
+    {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("sms:" + phoneNumber));
+        return intent;
+    }
+
+
+    private void startVoiceInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Please say your message");
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast toast = Toast.makeText(this, "Voice input not available", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
 }
+

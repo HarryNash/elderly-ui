@@ -1,3 +1,4 @@
+
 language: android
 android:
   components:
@@ -10,3 +11,4 @@ android:
 script:
    - chmod +x ElderlyUI/gradlew
    - ./ElderlyUI/gradlew build
+

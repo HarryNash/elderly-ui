@@ -15,6 +15,8 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.TypefaceProvider;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,13 +32,17 @@ public class ContactSelectionActivity extends AppCompatActivity {
     private GridView gridView;
     private ProgressBar progressBar;
     private String componentSize;
+    String headingStyle = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TypefaceProvider.registerDefaultIconSets();
+        DeviceContacts.initialiseSampleContactData(this);
         setContentView(R.layout.activity_contact_selection);
         Intent intent = getIntent();
         componentSize = intent.getStringExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE);
+        headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
         this.acquirePermissions();
     }
 
@@ -50,6 +56,7 @@ public class ContactSelectionActivity extends AppCompatActivity {
         gridView = (GridView) findViewById(R.id.gridview);
         imageAdapter = new ImageAdapter(this, contactInfos);
         gridView.setAdapter(imageAdapter);
+        setGridColumnWidth(componentSize, gridView);
 
         LoadContactsTask loadContactsTask = new LoadContactsTask(this);
         loadContactsTask.execute();
@@ -64,6 +71,23 @@ public class ContactSelectionActivity extends AppCompatActivity {
                     sendContactInfo(new ContactInfo());
             }
         });
+    }
+
+    private void setGridColumnWidth(String sizeDescriptor, GridView gridView) {
+        int numOfColumns = 10;
+        switch (sizeDescriptor) {
+            case "small" :
+                numOfColumns = 3;
+                break;
+            case "medium" :
+                numOfColumns = 2;
+                break;
+            case "large" :
+                numOfColumns = 1;
+                break;
+        }
+
+        gridView.setNumColumns(numOfColumns);
     }
 
     public List<ContactInfo> getContactInfos() {
@@ -132,6 +156,7 @@ public class ContactSelectionActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DisplayContactInfoActivity.class);
         intent.putExtra(EXTRA_MESSAGE, contactInfo.createSerialisableCopy());
         intent.putExtra(EXTRA_COMPONENT_SIZE, componentSize);
+        intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
         startActivity(intent);
     }
 

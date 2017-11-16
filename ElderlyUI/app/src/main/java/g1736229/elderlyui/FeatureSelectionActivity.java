@@ -8,6 +8,7 @@ import android.view.View;
 public class FeatureSelectionActivity extends AppCompatActivity {
     String componentSize;
     final int GALLERY_CODE = 67;
+    String headingStyle = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,13 +17,13 @@ public class FeatureSelectionActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         componentSize = intent.getStringExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE);
-
-        ComponentResizing.resizeButton(componentSize, findViewById(R.id.gallery), getResources());
-        ComponentResizing.resizeButton(componentSize, findViewById(R.id.contacts), getResources());
+        headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
+        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.gallery), getResources());
+        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.contacts), getResources());
     }
 
     public void openGalleryActivity(View v) {
-        Intent cameraIntent = new Intent(Intent.ACTION_PICK,
+        Intent cameraIntent = new Intent(Intent.ACTION_VIEW,
                 android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(cameraIntent, GALLERY_CODE);
     }
@@ -30,6 +31,7 @@ public class FeatureSelectionActivity extends AppCompatActivity {
     public void openContactsActivity(View v) {
         Intent intent = new Intent(this, ContactSelectionActivity.class);
         intent.putExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE, componentSize);
+        intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
         startActivity(intent);
     }
 }
