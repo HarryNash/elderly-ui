@@ -6,49 +6,61 @@
     android:layout_height="match_parent"
     tools:context="g1736229.elderlyui.ImpairmentDetectionActivity">
 
-    <Button
+    <com.beardedhen.androidbootstrap.BootstrapLabel
         android:id="@+id/small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="selectSmallComponents"
+        android:layout_width="204dp"
+        android:layout_height="60dp"
+        app:bootstrapBrand="warning"
+        app:bootstrapHeading="h6"
+        app:roundedCorners="true"
         android:text="small"
-        app:layout_constraintBottom_toTopOf="@+id/medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="81dp"
+        android:onClick="selectSmallComponents"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+    <com.beardedhen.androidbootstrap.BootstrapLabel
         android:id="@+id/medium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="selectMediumComponents"
+        android:layout_width="204dp"
+        android:layout_height="60dp"
+        app:bootstrapBrand="warning"
+        app:bootstrapHeading="h4"
+        app:roundedCorners="true"
         android:text="medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:onClick="selectMediumComponents"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="8dp"
-        android:onClick="selectLargeComponents"
-        android:text="large"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/medium" />
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.395" />
+
+    <com.beardedhen.androidbootstrap.BootstrapLabel
+        android:id="@+id/large"
+        android:layout_width="204dp"
+        android:layout_height="60dp"
+        app:bootstrapBrand="warning"
+        app:bootstrapHeading="h2"
+        app:roundedCorners="true"
+        android:text="large"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:onClick="selectLargeComponents"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintVertical_bias="0.841" />
+
 </android.support.constraint.ConstraintLayout>

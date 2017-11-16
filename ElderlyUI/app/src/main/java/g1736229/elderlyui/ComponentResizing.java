@@ -5,11 +5,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.beardedhen.androidbootstrap.BootstrapLabel;
+
 public class ComponentResizing {
-    public static void resizeButton(String componentSize, View view, Resources resources) {
-        Button button = (Button) view;
+    public static void resizeButton(String headingStyle, String componentSize, View view, Resources resources) {
+        BootstrapLabel button = (BootstrapLabel) view;
 
         int factor = adjectiveToNumber(componentSize);
+        Headings headingsObj = new Headings();
 
         int widthSize = factor * 8;
         int heightSize = factor * 6;
@@ -18,7 +21,7 @@ public class ComponentResizing {
         int heightDp = (int) (heightSize * scale + 0.5f);
         int widthDp = (int) (widthSize * scale + 0.5f);
 
-        button.setTextSize(factor);
+        button.setBootstrapHeading(headingsObj.getCorrespondingHeadingClass(headingStyle));
         ViewGroup.LayoutParams params = button.getLayoutParams();
         params.height = heightDp;
         params.width = widthDp;

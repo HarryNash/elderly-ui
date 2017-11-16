@@ -6,29 +6,41 @@
     android:layout_height="match_parent"
     tools:context="g1736229.elderlyui.FeatureSelectionActivity">
 
-    <Button
+    <com.beardedhen.androidbootstrap.BootstrapLabel
         android:id="@+id/gallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        app:bootstrapBrand="warning"
+        app:roundedCorners="true"
+        android:text="Gallery"
         android:onClick="openGalleryActivity"
-        android:text="gallery"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintVertical_bias="0.777" />
 
-    <Button
+    <com.beardedhen.androidbootstrap.BootstrapLabel
         android:id="@+id/contacts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        android:layout_marginTop="8dp"
+        app:bootstrapBrand="warning"
+        app:roundedCorners="true"
         android:onClick="openContactsActivity"
-        android:text="contacts"
+        android:text="Contacts"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gallery" />
+        android:layout_marginBottom="8dp"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintVertical_bias="0.225" />
+
 </android.support.constraint.ConstraintLayout>

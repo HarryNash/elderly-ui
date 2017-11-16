@@ -49,8 +49,10 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         emailText.setText(convertNull(contactInfo.getEmail()));
         emailText.setTextSize(textSize);
 
-        ComponentResizing.resizeButton(componentSize, findViewById(R.id.callButton), getResources());
-        ComponentResizing.resizeButton(componentSize, findViewById(R.id.messageButton), getResources());
+        String headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
+
+        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.callButton), getResources());
+        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.messageButton), getResources());
     }
 
     public void makeCall(View view) {
