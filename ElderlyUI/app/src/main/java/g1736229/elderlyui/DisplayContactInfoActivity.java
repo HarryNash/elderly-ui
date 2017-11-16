@@ -4,17 +4,16 @@ import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.AlarmClock;
 import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,37 +23,38 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
-import static android.R.attr.type;
+import static g1736229.elderlyui.ContactSelectionActivity.EXTRA_COMPONENT_SIZE;
+import static g1736229.elderlyui.ContactSelectionActivity.EXTRA_MESSAGE;
 import static java.lang.Thread.sleep;
 
 public class DisplayContactInfoActivity extends AppCompatActivity {
-    String componentSize;
+    public static final String CLIPPY_MESSAGE_OVERRIDE = "g17361229.elderlyui.CLIPPY_MESSAGE_OVERRIDE";
+    private String componentSize;
+    private ContactInfo contactInfo;
 
-    String number;
-    String name;
+    private String number;
+    private String name;
+    private long whatsAppID;
 
-    List<String> msgs = new ArrayList<>();
+    private List<String> msgs = new ArrayList<>();
 
-    int VIDEO_CALL_CODE = 55;
-    int PHONE_CALL_CODE = 83;
-    long startVoiceCallTime;
-    long startPhoneCallTime;
+    private int VIDEO_CALL_CODE = 55;
+    private int PHONE_CALL_CODE = 83;
+    private long startCallTime;
 
-    Handler mHandler = new Handler();
+    Handler reminderHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_contact_info);
 
-        // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        ContactInfo contactInfo = (ContactInfo) intent.getSerializableExtra(ContactSelectionActivity.EXTRA_MESSAGE);
+        contactInfo = (ContactInfo) intent.getSerializableExtra(EXTRA_MESSAGE);
 
-        componentSize = intent.getStringExtra(ContactSelectionActivity.EXTRA_COMPONENT_SIZE);
+        componentSize = intent.getStringExtra(EXTRA_COMPONENT_SIZE);
         int textSize = ComponentResizing.adjectiveToNumber(componentSize);
 
-        // Capture the layout's TextView and set the string as its text
         TextView nameText = (TextView) findViewById(R.id.textView);
         name = convertNull(contactInfo.getName());
         nameText.setText(name);
@@ -72,12 +72,43 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         ComponentResizing.resizeButton(componentSize, findViewById(R.id.button6), getResources());
         ComponentResizing.resizeButton(componentSize, findViewById(R.id.button7), getResources());
 
-        initMsgs();
-        callClippy();
+        whatsAppID = getContactWhatsAppID();
+        if (whatsAppID == -1) {
+            removeVideoCallButton(); // Could grey out instead
+        } else {
+            //animateVideoCallButton();
+        }
 
-        //animateVideoCallButton();
+        initMsgs();
+        callClippy(intent.getStringExtra(CLIPPY_MESSAGE_OVERRIDE));
     }
 
+    private long getContactWhatsAppID() {
+        ContentResolver resolver = this.getContentResolver();
+        Cursor cursor = resolver.query(ContactsContract.Data.CONTENT_URI, null, null, null,
+                ContactsContract.Contacts.DISPLAY_NAME);
+
+        long contactID = -1;
+        String videoCallMimeType = "vnd.android.cursor.item/vnd.com.whatsapp.video.call";
+        while (cursor.moveToNext()) {
+            long _id = cursor.getLong(cursor.getColumnIndex(ContactsContract.Data._ID));
+            String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
+            String mimeType = cursor.getString(cursor.getColumnIndex(ContactsContract.Data.MIMETYPE));
+            if (displayName.equals(name) && mimeType.equals(videoCallMimeType)) {
+                contactID = _id;
+                break;
+            }
+        }
+        return contactID;
+    }
+
+    private void removeVideoCallButton() {
+        Button button = (Button) findViewById(R.id.button7);
+        ViewGroup layout = (ViewGroup) button.getParent();
+        if (null != layout) {
+            layout.removeView(button);
+        }
+    }
 
     public void animateVideoCallButton() {
         new Thread( new Runnable(){
@@ -90,9 +121,9 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
                     Button txt = (Button) findViewById(R.id.button7);
                     StringBuilder videoCall = new StringBuilder("VIDEO CALL");
                     videoCall.setCharAt(i, Character.toLowerCase(videoCall.charAt(i)));
-                    txt.setText(videoCall);
+                    txt.setText(videoCall); // Dies the second/third time this is called
                     try {
-                        sleep(100);
+                        sleep(1000);
                     } catch (InterruptedException e) {
 
                     }
@@ -112,9 +143,15 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
     /** This calls a random
      *
      */
-    public void callClippy() {
-        int randomNum = ThreadLocalRandom.current().nextInt(0, msgs.size());
-        String msg = msgs.get(randomNum);
+    public void callClippy(String overridingMessage) {
+        String msg;
+        if (overridingMessage == null) {
+            int randomNum = ThreadLocalRandom.current().nextInt(0, msgs.size());
+            msg = msgs.get(randomNum);
+        } else {
+            msg = overridingMessage;
+        }
+
         Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
         toast.show();
     }
@@ -131,17 +168,20 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
 
     private Runnable callReminder = new Runnable() {
         public void run() {
-            // Sending to the start is just placement, send them to this screen with an intent overriding clippy to say "you asked for a reminder 5hrs ago to call bob again..."
-            Intent i = new Intent(getApplicationContext(),ImpairmentDetectionActivity.class);
-            startActivity(i);
+            Intent intent = new Intent(getApplicationContext(), DisplayContactInfoActivity.class);
+            intent.putExtra(EXTRA_MESSAGE, contactInfo);
+            intent.putExtra(EXTRA_COMPONENT_SIZE, componentSize);
+            intent.putExtra(CLIPPY_MESSAGE_OVERRIDE, "You set a reminder to call " + name + " at this time!");
+            startActivity(intent);
         }
     };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        float callLength = TimeUnit.SECONDS.convert(System.nanoTime() - startCallTime, TimeUnit.NANOSECONDS);
+
         if (requestCode == VIDEO_CALL_CODE) {
-            float secondsSpentInVideoCall = TimeUnit.SECONDS.convert(System.nanoTime() - startVoiceCallTime, TimeUnit.NANOSECONDS);
-            if (secondsSpentInVideoCall < 10.0) { //if (resultCode == RESULT_OK) { }
+            if (callLength < 10.0) { //if (resultCode == RESULT_OK) { }
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -161,18 +201,17 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         }
 
         if (requestCode == PHONE_CALL_CODE) {
-            float secondsSpentInPhoneCall = TimeUnit.SECONDS.convert(System.nanoTime() - startPhoneCallTime, TimeUnit.NANOSECONDS);
-            if (secondsSpentInPhoneCall < 10.0) { //if (resultCode == RESULT_OK) { }
+            if (callLength < 10.0) { //if (resultCode == RESULT_OK) { }
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
-                                mHandler.postDelayed(callReminder, 10000);
+                                reminderHandler.postDelayed(callReminder, 10000);
                                 break;
 
                             case DialogInterface.BUTTON_NEUTRAL:
-                                mHandler.postDelayed(callReminder, 100000);
+                                reminderHandler.postDelayed(callReminder, 100000);
                                 break;
                         }
                     }
@@ -188,43 +227,25 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
     }
 
     public void makeCall(View view) {
-        startPhoneCallTime = System.nanoTime();
+        startCallTime = System.nanoTime();
+
         startActivityForResult(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", number, null)), PHONE_CALL_CODE);
+        //Intent cameraIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        //startActivityForResult(cameraIntent, PHONE_CALL_CODE);
     }
 
     public void makeVideoCall(View view) {
-        Log.d("xyz", "here");
-        startVoiceCallTime = System.nanoTime();
-
-
-        ContentResolver resolver = this.getContentResolver();
-        Cursor cursor = resolver.query(
-                ContactsContract.Data.CONTENT_URI,
-                null, null, null,
-                ContactsContract.Contacts.DISPLAY_NAME);
-
-        //Now read data from cursor like
-
-        while (cursor.moveToNext()) {
-            long _id = cursor.getLong(cursor.getColumnIndex(ContactsContract.Data._ID));
-            String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
-            String mimeType = cursor.getString(cursor.getColumnIndex(ContactsContract.Data.MIMETYPE));
-
-            Log.d("Data", _id+ " "+ displayName + " " + mimeType );
-        }
+        startCallTime = System.nanoTime();
 
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
-
-        // the _ids you save goes here at the end of /data/12562
-        //intent.setDataAndType(Uri.parse("content://com.android.contacts/data/_id"),
-        //        "vnd.android.cursor.item/vnd.com.whatsapp.voip.call");
-        intent.setDataAndType(Uri.parse("content://com.android.contacts/data/21"),
+        intent.setDataAndType(Uri.parse("content://com.android.contacts/data/" + whatsAppID),
                 "vnd.android.cursor.item/vnd.com.whatsapp.voip.call");
-
         intent.setPackage("com.whatsapp");
 
         startActivityForResult(intent, VIDEO_CALL_CODE);
+        //Intent cameraIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        //startActivityForResult(cameraIntent, VIDEO_CALL_CODE);
     }
 
     private String convertNull(String string) {
