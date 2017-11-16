@@ -44,7 +44,6 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
     private int PHONE_CALL_CODE = 83;
     private long startCallTime;
 
-
     // User option for voice to text messaging
     boolean voiceOnly = true;
 
@@ -85,9 +84,9 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
 
         whatsAppID = getContactWhatsAppID();
         if (whatsAppID == -1) {
-            removeVideoCallButton(); // Could grey out instead
+            // grey out the video-call-button
         } else {
-            //animateVideoCallButton();
+            //animate the video-call-button
         }
 
         initMsgs();
@@ -111,44 +110,6 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
             }
         }
         return contactID;
-    }
-
-    private void removeVideoCallButton() {
-        Button button = (Button) findViewById(R.id.button7);
-        ViewGroup layout = (ViewGroup) button.getParent();
-        if (null != layout) {
-            layout.removeView(button);
-        }
-    }
-
-    public void animateVideoCallButton() {
-        new Thread( new Runnable(){
-            @Override
-            public void run(){
-                Looper.prepare();
-                int i = 0;
-                while (true) {
-                    i = (i + 1) % 9;
-                    Button txt = (Button) findViewById(R.id.button7);
-                    StringBuilder videoCall = new StringBuilder("VIDEO CALL");
-                    videoCall.setCharAt(i, Character.toLowerCase(videoCall.charAt(i)));
-                    txt.setText(videoCall); // Dies the second/third time this is called
-                    try {
-                        sleep(1000);
-                    } catch (InterruptedException e) {
-
-                    }
-                    if (i == 0) {
-                        try {
-                            txt.setText("VIDEO CALL");
-                            sleep(2000);
-                        } catch (InterruptedException e) {
-
-                        }
-                    }
-                }
-            }
-        }).start();
     }
 
     /** This calls a random
