@@ -58,7 +58,7 @@ public class ContactInfo implements Serializable {
         this.email = email;
     }
 
-    public ContactInfo createSerialisbleCopy() {
+    public ContactInfo createSerialisableCopy() {
         return new ContactInfo(id, name, phoneNumber, email, null);
     }
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="g1736229.elderlyui.DisplayContactInfo">
+    tools:context="g1736229.elderlyui.DisplayContactInfoActivity">
 
     <TextView
         android:id="@+id/textView3"
@@ -18,7 +18,11 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        tools:layout_constraintLeft_creator="1" />
 
     <TextView
         android:id="@+id/textView2"
@@ -32,7 +36,11 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        tools:layout_constraintLeft_creator="1" />
 
     <TextView
         android:id="@+id/textView"
@@ -46,6 +54,46 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginRight="5dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.0"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        tools:layout_constraintLeft_creator="1" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="179dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="179dp"
+        android:onClick="makeCall"
+        android:text="Call"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/button7" />
+
+    <Button
+        android:id="@+id/button7"
+        android:textAllCaps="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="65dp"
+        android:layout_marginTop="66dp"
+        android:onClick="makeVideoCall"
+        android:text="Video Call"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button6"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
 </android.support.constraint.ConstraintLayout>
