@@ -24,7 +24,6 @@ public class ContactSelectionActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "g17361229.elderlyui.MESSAGE";
     public static final String EXTRA_COMPONENT_SIZE = "g17361229.elderlyui.TEXT_SIZE";
     private final int PERMISSIONS_READ_WRITE_CONTACTS = 5; // Code for Contacts Permissions
-
     private final List<ContactInfo> contactInfos = new ArrayList<>();
 
     // rename this variable and its getter
@@ -38,7 +37,6 @@ public class ContactSelectionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         TypefaceProvider.registerDefaultIconSets();
-        DeviceContacts.initialiseSampleContactData(this);
         setContentView(R.layout.activity_contact_selection);
         Intent intent = getIntent();
         componentSize = intent.getStringExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE);

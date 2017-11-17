@@ -68,14 +68,10 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         nameText.setText(name);
         nameText.setTextSize(textSize);
 
-        TextView phoneText = (TextView) findViewById(R.id.textView2);
-        phoneNumber = convertNull(contactInfo.getPhoneNumber());
-        phoneText.setText(convertNull(contactInfo.getPhoneNumber()));
-        phoneText.setTextSize(textSize);
-
-        TextView emailText = (TextView) findViewById(R.id.textView3);
-        emailText.setText(convertNull(contactInfo.getEmail()));
-        emailText.setTextSize(textSize);
+        initMsgs();
+        TextView advice = (TextView) findViewById(R.id.advice);
+        advice.setText(callClippy(intent.getStringExtra(CLIPPY_MESSAGE_OVERRIDE)));
+        advice.setTextSize(textSize);
 
         String headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.callButton), getResources());
@@ -88,9 +84,6 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         } else {
             //animate the video-call-button
         }
-
-        initMsgs();
-        callClippy(intent.getStringExtra(CLIPPY_MESSAGE_OVERRIDE));
     }
 
     private long getContactWhatsAppID() {
@@ -112,10 +105,7 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         return contactID;
     }
 
-    /** This calls a random
-     *
-     */
-    public void callClippy(String overridingMessage) {
+    public String callClippy(String overridingMessage) {
         String msg;
         if (overridingMessage == null) {
             int randomNum = ThreadLocalRandom.current().nextInt(0, msgs.size());
@@ -124,8 +114,7 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
             msg = overridingMessage;
         }
 
-        Toast toast = Toast.makeText(this, msg, Toast.LENGTH_LONG);
-        toast.show();
+        return msg;
     }
 
     public void initMsgs() {

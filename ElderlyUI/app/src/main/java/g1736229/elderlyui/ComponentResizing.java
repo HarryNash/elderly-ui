@@ -36,10 +36,10 @@ public class ComponentResizing {
                 number = 10;
                 break;
             case "medium":
-                number = 20;
+                number = 15;
                 break;
             case "large":
-                number = 30;
+                number = 20;
                 break;
         }
         return number;
