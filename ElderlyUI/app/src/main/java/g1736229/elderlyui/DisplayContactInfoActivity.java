@@ -36,12 +36,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import static g1736229.elderlyui.ContactSelectionActivity.EXTRA_COMPONENT_SIZE;
 import static g1736229.elderlyui.ContactSelectionActivity.EXTRA_MESSAGE;
-import static java.lang.Thread.sleep;
 import java.util.Locale;
 
 public class DisplayContactInfoActivity extends AppCompatActivity {
@@ -91,9 +89,6 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         TextView advice = (TextView) findViewById(R.id.advice);
         advice.setTextSize(textSize);
 
-        Clippy clippy = new Clippy(intent.getStringExtra(CLIPPY_MESSAGE_OVERRIDE), generateSuggestions(), advice);
-        clippy.displayAdvice();
-
         headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.callButton), getResources());
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.messageButton), getResources());
@@ -101,20 +96,20 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
 
         whatsAppID = getContactWhatsAppID();
         if (whatsAppID == -1) {
+            findViewById(R.id.button7).setVisibility(View.INVISIBLE);
             // grey out the video-call-button
         } else {
             //animate the video-call-button
         }
+
+        Clippy clippy = new Clippy(intent.getStringExtra(CLIPPY_MESSAGE_OVERRIDE), generateSuggestions(), advice);
+        clippy.displayAdvice();
     }
 
     private List<String> generateSuggestions() {
         List<String> suggestions = new LinkedList<>();
 
         //whenUsuallyAvailable(suggestions);
-
-        suggestions.add("International video calls are free!");
-
-        suggestions.add("Make sure you are in a well lit area before starting a video call.");
 
         BatteryManager bm = (BatteryManager)getSystemService(BATTERY_SERVICE);
         int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
@@ -127,10 +122,20 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
             suggestions.add("It is recommended that you enable WiFi for video calls.");
         }
 
+        if (findViewById(R.id.button7).getVisibility() == View.INVISIBLE) {
+            suggestions.add("Your contact must have WhatsApp if you want to video call them.");        }
+
+
+        if (suggestions.size() == 0) {
+            suggestions.add("International video calls are free!");
+            suggestions.add("The best lighting for a video call comes from multiple diffused sources.");
+            suggestions.add("Make sure you are in a well lit area before starting a video call.");
+        }
+
         return suggestions;
     }
 
-    /*
+/*
     private void whenUsuallyAvailable(List<String> suggestions) {
         //Fetches the complete call log in descending order. i.e recent calls appears first.
         String[] projection = new String[] {
@@ -149,7 +154,7 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
                 String callerNumber = c.getString(c.getColumnIndex(CallLog.Calls.NUMBER));
                 long callDateandTime = c.getLong(c.getColumnIndex(CallLog.Calls.DATE));
                 int callType = c.getInt(c.getColumnIndex(CallLog.Calls.TYPE));
-                Log.d("grande", "weak");
+                Log.d("diabolical", "weak");
                 if (callType == CallLog.Calls.INCOMING_TYPE && callerNumber.equals(phoneNumber)) {
                     // put it here really
                 } else {
@@ -161,9 +166,8 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         }
 
         if (lastSuccessfulCall != -1) {
-            Log.d("rope", Long.toString(lastSuccessfulCall));
+            Log.d("diabolical", Long.toString(lastSuccessfulCall));
         }
-
     }
     */
 
