@@ -154,6 +154,7 @@ public class ContactSelectionActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DisplayContactInfoActivity.class);
         intent.putExtra(EXTRA_MESSAGE, contactInfo.createSerialisableCopy());
         intent.putExtra(EXTRA_COMPONENT_SIZE, componentSize);
+        intent.putExtra(DisplayContactInfoActivity.CLIPPY_MESSAGE_OVERRIDE, "");
         intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
         startActivity(intent);
     }
