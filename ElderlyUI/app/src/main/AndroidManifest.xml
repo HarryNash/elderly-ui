@@ -16,6 +16,7 @@
     </uses-permission>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" >
     </uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -34,6 +35,17 @@
         <activity android:name=".DisplayContactInfoActivity" />
         <activity android:name=".ContactSelectionActivity" />
         <activity android:name=".FeatureSelectionActivity" />
+        <receiver
+            android:enabled="true"
+            android:exported="true"
+            android:name="g1736229.elderlyui.Startup"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
