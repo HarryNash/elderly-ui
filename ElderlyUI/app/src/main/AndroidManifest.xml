@@ -32,20 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".DisplayContactInfoActivity"
-            android:parentActivityName=".ContactSelectionActivity">
-        </activity>
-
-        <activity
-            android:name=".ContactSelectionActivity"
-            android:parentActivityName=".FeatureSelectionActivity">
-        </activity>
-
-        <activity
-            android:name=".FeatureSelectionActivity"
-            android:parentActivityName=".ImpairmentDetectionActivity">
-        </activity>
+        <activity android:name=".DisplayContactInfoActivity" />
+        <activity android:name=".ContactSelectionActivity" />
+        <activity android:name=".FeatureSelectionActivity" />
         <receiver
             android:enabled="true"
             android:exported="true"
