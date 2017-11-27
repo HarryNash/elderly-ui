@@ -18,6 +18,7 @@ import android.os.BatteryManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -34,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -135,59 +137,6 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         return suggestions;
     }
 
-/*
-    private void whenUsuallyAvailable(List<String> suggestions) {
-        //Fetches the complete call log in descending order. i.e recent calls appears first.
-        String[] projection = new String[] {
-                CallLog.Calls._ID,
-                CallLog.Calls.NUMBER,
-                CallLog.Calls.DATE,
-                CallLog.Calls.DURATION,
-                CallLog.Calls.TYPE
-        };
-        acquirePermissions();
-        Cursor c = getApplicationContext().getContentResolver().query(CallLog.Calls.CONTENT_URI, projection, null, null, CallLog.Calls.DATE + " DESC");
-        long lastSuccessfulCall = -1;
-        if (c.getCount() > 0) {
-            c.moveToFirst();
-            do {
-                String callerNumber = c.getString(c.getColumnIndex(CallLog.Calls.NUMBER));
-                long callDateandTime = c.getLong(c.getColumnIndex(CallLog.Calls.DATE));
-                int callType = c.getInt(c.getColumnIndex(CallLog.Calls.TYPE));
-                Log.d("diabolical", "weak");
-                if (callType == CallLog.Calls.INCOMING_TYPE && callerNumber.equals(phoneNumber)) {
-                    // put it here really
-                } else {
-                    lastSuccessfulCall = callDateandTime;
-                }
-                //if(callType == CallLog.Calls.MISSED_TYPE) { }
-            } while(c.moveToNext());
-
-        }
-
-        if (lastSuccessfulCall != -1) {
-            Log.d("diabolical", Long.toString(lastSuccessfulCall));
-        }
-    }
-    */
-
-    private void acquirePermissions() {
-
-        boolean granted = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALL_LOG)
-                == PackageManager.PERMISSION_GRANTED;
-        granted &= ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALL_LOG)
-                == PackageManager.PERMISSION_GRANTED;
-
-        String[] requestedPermissions = new String[]{Manifest.permission.READ_CALL_LOG,
-                Manifest.permission.WRITE_CALL_LOG};
-
-        if (!granted) {
-            ActivityCompat.requestPermissions(this, requestedPermissions, PERMISSIONS_READ_WRITE_CALL_LOG);
-            return;
-        }
-    }
-
-    // check if permissions were granted by the user
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -265,31 +214,6 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
             }
         }
 
-        if (requestCode == PHONE_CALL_CODE) {
-            if (callLength < 10.0) { //if (resultCode == RESULT_OK) { }
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case DialogInterface.BUTTON_POSITIVE:
-                                reminderHandler.postDelayed(callReminder, 10000);
-                                break;
-
-                            case DialogInterface.BUTTON_NEUTRAL:
-                                reminderHandler.postDelayed(callReminder, 100000);
-                                break;
-                        }
-                    }
-                };
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("That phone call didn't go through, perhaps " + name + " is away from their device, would you like to be reminded to call them?")
-                        .setPositiveButton("Remind me in an hour", dialogClickListener)
-                        .setNegativeButton("Don't remind me", dialogClickListener)
-                        .setNeutralButton("Remind me tomorrow", dialogClickListener).show();
-            }
-        }
-
         if(requestCode == REQ_CODE_SPEECH_INPUT){
             if (resultCode == RESULT_OK && data != null) {
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
@@ -300,12 +224,89 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         }
     }
 
-    public void makeCall(View view) {
-        startCallTime = System.nanoTime();
+    private int getNumberOfLogs(Context context) {
+        Cursor cursor = null;
+        try {
+            cursor = context.getContentResolver().query(CallLog.Calls.CONTENT_URI,
+                    null, null, null, CallLog.Calls.DATE + " DESC");
+        } catch (SecurityException e) {
 
-        startActivityForResult(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)), PHONE_CALL_CODE);
-        //Intent cameraIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        //startActivityForResult(cameraIntent, PHONE_CALL_CODE);
+        }
+
+        int numberOfLogs = 0;
+        while (cursor.moveToNext()) {
+            numberOfLogs++;
+        }
+        cursor.close();
+        return numberOfLogs;
+    }
+
+    public float callTime() {
+        long startTime = System.nanoTime();
+        int startNumberOfLogs = getNumberOfLogs(this);
+        while (true) {
+            if (startNumberOfLogs != getNumberOfLogs(this)) {
+                break;
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException i) {
+
+            }
+        }
+        float totalTime = TimeUnit.SECONDS.convert(System.nanoTime() - startTime, TimeUnit.NANOSECONDS);
+        return totalTime;
+    }
+
+    public void showReminderChoice() {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        reminderHandler.postDelayed(callReminder, 10000);
+                        break;
+
+                    case DialogInterface.BUTTON_NEUTRAL:
+                        reminderHandler.postDelayed(callReminder, 100000);
+                        break;
+                }
+            }
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("That phone call didn't go through, perhaps " + name + " is away from their device, would you like to be reminded to call them?")
+                .setPositiveButton("Remind me in an hour", dialogClickListener)
+                .setNegativeButton("Don't remind me", dialogClickListener)
+                .setNeutralButton("Remind me tomorrow", dialogClickListener).show();
+    }
+
+    public void makeCall(View view) {
+
+        final Handler mHandler = new Handler()
+        {
+            public void handleMessage(Message msg)
+            {
+                showReminderChoice();
+            }
+        };
+
+        new Thread( new Runnable(){
+            @Override
+            public void run(){
+                Looper.prepare();
+                float timeForCall = callTime();
+                if (timeForCall < 10.0) {
+                    mHandler.sendEmptyMessage(0);
+                }
+            }
+        }).start();
+        try {
+            startActivityForResult(new Intent(Intent.ACTION_CALL, Uri.fromParts("tel", phoneNumber, null)), PHONE_CALL_CODE);
+            //Intent cameraIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+            //startActivityForResult(cameraIntent, PHONE_CALL_CODE);
+        } catch (SecurityException e) {
+
+        }
     }
 
     public void makeText(View view) {
