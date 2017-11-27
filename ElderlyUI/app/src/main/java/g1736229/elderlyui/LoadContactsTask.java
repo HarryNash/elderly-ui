@@ -115,7 +115,7 @@ public class LoadContactsTask extends AsyncTask<Void, Void, Void> {
 
     private Bitmap loadProfilePicture(ContentResolver cr, long id) {
         Uri uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id);
-        InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri);
+        InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri, true);
         if (input == null) {
             return null;
         }
