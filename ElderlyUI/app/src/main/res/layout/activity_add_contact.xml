@@ -21,35 +21,22 @@
     <EditText
         android:id="@+id/contactname"
         android:layout_width="0dp"
-<<<<<<< HEAD
         android:layout_height="0dp"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="13dp"
         android:layout_marginTop="8dp"
-=======
-        android:layout_height="70dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp"
->>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
         android:hint="Display Name"
         android:inputType="textCapWords"
         app:layout_constraintBottom_toTopOf="@+id/contactnumber"
         app:layout_constraintEnd_toEndOf="parent"
-<<<<<<< HEAD
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="spread_inside"
         tools:ignore="MissingConstraints" />
-=======
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
->>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
 
     <EditText
         android:id="@+id/contactemail"
         android:layout_width="0dp"
-<<<<<<< HEAD
         android:layout_height="62dp"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="391dp"
@@ -61,18 +48,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contactnumber"
         tools:ignore="MissingConstraints" />
-=======
-        android:layout_height="55dp"
-        android:layout_alignParentStart="true"
-        android:hint="Email"
-        android:inputType="textCapWords"
-        app:layout_constraintBottom_toTopOf="@+id/contactnumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/addphoto"
-        app:layout_constraintVertical_bias="0.406" />
->>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
 
 
     <com.beardedhen.androidbootstrap.BootstrapLabel
@@ -89,7 +64,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-<<<<<<< HEAD
         app:layout_constraintVertical_bias="0.787"
         app:roundedCorners="true" />
 
@@ -109,29 +83,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.524"
         app:roundedCorners="true" />
-=======
-        app:layout_constraintVertical_bias="0.825"
-        app:roundedCorners="true" />
-
-    <ImageButton
-        android:id="@+id/addphoto"
-        android:layout_width="153dp"
-        android:layout_height="149dp"
-        android:layout_below="@id/contactnumber"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="100dp"
-        android:contentDescription="Choose Photo"
-        android:scaleType="fitCenter"
-        android:src="@android:drawable/picture_frame"
-        app:layout_constraintStart_toStartOf="@+id/contactnumber"
-        app:layout_constraintTop_toBottomOf="@+id/contactnumber" />
->>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
 
     <EditText
         android:id="@+id/contactnumber"
         android:layout_width="0dp"
-<<<<<<< HEAD
         android:layout_height="0dp"
         android:layout_below="@id/contactname"
         android:layout_centerHorizontal="true"
@@ -145,18 +100,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contactname"
         tools:ignore="MissingConstraints" />
-=======
-        android:layout_height="53dp"
-        android:layout_below="@id/contactname"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-        android:hint="Number"
-        android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/addphoto"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactname" />
->>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
 
 </android.support.constraint.ConstraintLayout>
