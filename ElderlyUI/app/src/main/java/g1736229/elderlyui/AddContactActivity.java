@@ -71,7 +71,7 @@ public class AddContactActivity extends AppCompatActivity {
                         .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, contactPhone.getText().toString())
                         .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
                         .build());
-
+                // insert Email in the table ContactsContract.Data
                 ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                         .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
                         .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)
