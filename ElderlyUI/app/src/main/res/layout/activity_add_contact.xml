@@ -6,4 +6,76 @@
     android:layout_height="match_parent"
     tools:context="g1736229.elderlyui.AddContactActivity">
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/contactname"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:hint="Display Name"
+        android:inputType="textCapWords"
+        app:layout_constraintBottom_toTopOf="@+id/mobilenumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.beardedhen.androidbootstrap.BootstrapLabel
+        android:id="@+id/confirmadd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Add to Contacts"
+        app:bootstrapBrand="warning"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.752"
+        app:roundedCorners="true" />
+
+    <ImageButton
+        android:id="@+id/addphoto"
+        android:layout_width="153dp"
+        android:layout_height="149dp"
+        android:layout_below="@id/mobilenumber"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="60dp"
+        android:contentDescription="Choose Photo"
+        android:hint="Display Name"
+        android:scaleType="fitCenter"
+        android:src="@android:drawable/picture_frame"
+        app:layout_constraintStart_toStartOf="@+id/mobilenumber"
+        app:layout_constraintTop_toBottomOf="@+id/mobilenumber" />
+
+    <EditText
+        android:id="@+id/mobilenumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/contactname"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:hint="Number"
+        android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@+id/addphoto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contactname" />
+
 </android.support.constraint.ConstraintLayout>
