@@ -15,6 +15,7 @@ public class ContactOptionsActivity extends AppCompatActivity {
 
     private String componentSize;
     private String headingStyle;
+    private String practiceMode = "off";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,7 @@ public class ContactOptionsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         componentSize = intent.getStringExtra(EXTRA_COMPONENT_SIZE);
         headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
+        practiceMode = intent.getStringExtra(ImpairmentDetectionActivity.PRACTICE_MODE);
 
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.viewcontacts), getResources());
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.addcontacts), getResources());
@@ -33,6 +35,7 @@ public class ContactOptionsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ContactSelectionActivity.class);
         intent.putExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE, componentSize);
         intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
+        intent.putExtra(ImpairmentDetectionActivity.PRACTICE_MODE, practiceMode);
         startActivity(intent);
     }
 
@@ -40,6 +43,7 @@ public class ContactOptionsActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddContactActivity.class);
         intent.putExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE, componentSize);
         intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
+        intent.putExtra(ImpairmentDetectionActivity.PRACTICE_MODE, practiceMode);
         startActivity(intent);
     }
 }

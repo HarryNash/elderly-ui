@@ -33,6 +33,7 @@ public class AddContactActivity extends AppCompatActivity {
 
     private String componentSize;
     private String headingStyle;
+    private String practiceMode;
     private final int PICK_PHOTO = 1;
     Bitmap photo;
 
@@ -45,6 +46,7 @@ public class AddContactActivity extends AppCompatActivity {
         Intent intent = getIntent();
         componentSize = intent.getStringExtra(EXTRA_COMPONENT_SIZE);
         headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
+        practiceMode = intent.getStringExtra(ImpairmentDetectionActivity.PRACTICE_MODE);
 
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.confirmadd), getResources());
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.addphoto), getResources());
@@ -143,9 +145,14 @@ public class AddContactActivity extends AppCompatActivity {
         BootstrapLabel addContactButton = (BootstrapLabel) findViewById(R.id.confirmadd);
         BootstrapLabel addPhotoButton = (BootstrapLabel) findViewById(R.id.addphoto);
 
+        //when "practice mode" is ON, the actions of the user have no real world consequences
+        //i.e. the user can explore and navigate through the app but he/she can't add/delete contacts or call people
+        //that's why the confirmadd button is disabled when practice mode is on
+        PracticeMode practiceModeObj = new PracticeMode();
+        practiceModeObj.switchOnOff(practiceMode, findViewById(R.id.confirmadd));
+
         addContactButton.setOnClickListener(addContactListener);
         addPhotoButton.setOnClickListener(addPhotoListener);
-
 
     }
 
