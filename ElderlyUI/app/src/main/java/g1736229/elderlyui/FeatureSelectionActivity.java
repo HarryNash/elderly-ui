@@ -26,6 +26,7 @@ public class FeatureSelectionActivity extends AppCompatActivity {
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.gallery), getResources());
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.camera), getResources());
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.contacts), getResources());
+        //ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.addcontacts), getResources());
     }
 
     public void openGalleryActivity(View v) {
@@ -56,8 +57,16 @@ public class FeatureSelectionActivity extends AppCompatActivity {
         startActivityForResult(cameraIntent, 1234);
     }
 
-    public void openContactsActivity(View v) {
-        Intent intent = new Intent(this, ContactSelectionActivity.class);
+//    public void openContactsActivity(View v) {
+//        Intent intent = new Intent(this, ContactSelectionActivity.class);
+//        intent.putExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE, componentSize);
+//        intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
+//        startActivity(intent);
+//    }
+
+
+    public void openContactOptionsActivity(View view) {
+        Intent intent = new Intent(this, ContactOptionsActivity.class);
         intent.putExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE, componentSize);
         intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
         startActivity(intent);
