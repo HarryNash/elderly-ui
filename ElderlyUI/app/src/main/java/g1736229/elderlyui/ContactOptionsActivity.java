@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
+
 import static g1736229.elderlyui.ContactSelectionActivity.EXTRA_COMPONENT_SIZE;
 import static g1736229.elderlyui.ContactSelectionActivity.EXTRA_MESSAGE;
 
@@ -35,6 +37,9 @@ public class ContactOptionsActivity extends AppCompatActivity {
     }
 
     public void addNewContact(View view) {
-        
+        Intent intent = new Intent(this, AddContactActivity.class);
+        intent.putExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE, componentSize);
+        intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
+        startActivity(intent);
     }
 }
