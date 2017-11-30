@@ -3,16 +3,21 @@ package g1736229.elderlyui;
 import android.content.ContentProviderOperation;
 import android.content.Intent;
 import android.content.OperationApplicationException;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapLabel;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static g1736229.elderlyui.ContactSelectionActivity.EXTRA_COMPONENT_SIZE;
@@ -21,6 +26,8 @@ public class AddContactActivity extends AppCompatActivity {
 
     private String componentSize;
     private String headingStyle;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,8 @@ public class AddContactActivity extends AppCompatActivity {
         headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
 
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.confirmadd), getResources());
+        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.addphoto), getResources());
+
 
         View.OnClickListener addContactListener = new View.OnClickListener() {
             @Override
@@ -58,11 +67,13 @@ public class AddContactActivity extends AppCompatActivity {
 
 
                 // insert display name in the table ContactsContract.Data
+
                 ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                         .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
                         .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
                         .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, contactName.getText().toString())
                         .build());
+
 
                 //insert Mobile Number in the table ContactsContract.Data
                 ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
@@ -85,6 +96,7 @@ public class AddContactActivity extends AppCompatActivity {
                 }catch (RemoteException | OperationApplicationException e) {
                     e.printStackTrace();
                 }
+                finish();
 
             }
 
@@ -94,6 +106,7 @@ public class AddContactActivity extends AppCompatActivity {
         BootstrapLabel addContactButton = (BootstrapLabel) findViewById(R.id.confirmadd);
 
         addContactButton.setOnClickListener(addContactListener);
+
 
     }
 }

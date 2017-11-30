@@ -21,30 +21,33 @@
     <EditText
         android:id="@+id/contactname"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="0dp"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="13dp"
+        android:layout_marginTop="8dp"
         android:hint="Display Name"
         android:inputType="textCapWords"
         app:layout_constraintBottom_toTopOf="@+id/contactnumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/contactemail"
         android:layout_width="0dp"
-        android:layout_height="55dp"
+        android:layout_height="62dp"
         android:layout_alignParentStart="true"
+        android:layout_marginBottom="391dp"
         android:hint="Email"
         android:inputType="textCapWords"
-        app:layout_constraintBottom_toTopOf="@+id/contactnumber"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/addphoto"
-        app:layout_constraintVertical_bias="0.406" />
+        app:layout_constraintTop_toBottomOf="@+id/contactnumber"
+        tools:ignore="MissingConstraints" />
 
 
     <com.beardedhen.androidbootstrap.BootstrapLabel
@@ -61,36 +64,41 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.825"
+        app:layout_constraintVertical_bias="0.787"
         app:roundedCorners="true" />
 
-    <ImageButton
+    <com.beardedhen.androidbootstrap.BootstrapLabel
         android:id="@+id/addphoto"
-        android:layout_width="153dp"
-        android:layout_height="149dp"
-        android:layout_below="@id/contactnumber"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="100dp"
-        android:contentDescription="Choose Photo"
-        android:scaleType="fitCenter"
-        android:src="@android:drawable/picture_frame"
-        app:layout_constraintStart_toStartOf="@+id/contactnumber"
-        app:layout_constraintTop_toBottomOf="@+id/contactnumber" />
+        android:layout_width="165dp"
+        android:layout_height="28dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Add Photo"
+        app:bootstrapBrand="warning"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.524"
+        app:roundedCorners="true" />
 
     <EditText
         android:id="@+id/contactnumber"
         android:layout_width="0dp"
-        android:layout_height="53dp"
+        android:layout_height="0dp"
         android:layout_below="@id/contactname"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="13dp"
         android:hint="Number"
+
         android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/addphoto"
+        app:layout_constraintBottom_toTopOf="@+id/contactemail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contactname" />
+        app:layout_constraintTop_toBottomOf="@+id/contactname"
+        tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>
