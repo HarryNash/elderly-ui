@@ -1,5 +1,6 @@
 package g1736229.elderlyui;
 
+<<<<<<< HEAD
 import android.Manifest;
 import android.content.ContentProviderOperation;
 import android.content.Intent;
@@ -12,19 +13,32 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
+=======
+import android.content.ContentProviderOperation;
+import android.content.Intent;
+import android.content.OperationApplicationException;
+import android.os.RemoteException;
+import android.provider.ContactsContract;
+>>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+<<<<<<< HEAD
 import android.widget.ImageButton;
+=======
+>>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapLabel;
 
+<<<<<<< HEAD
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+=======
+>>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
 import java.util.ArrayList;
 
 import static g1736229.elderlyui.ContactSelectionActivity.EXTRA_COMPONENT_SIZE;
@@ -33,9 +47,12 @@ public class AddContactActivity extends AppCompatActivity {
 
     private String componentSize;
     private String headingStyle;
+<<<<<<< HEAD
     private final int PICK_PHOTO = 1;
     Bitmap photo;
 
+=======
+>>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +64,7 @@ public class AddContactActivity extends AppCompatActivity {
         headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
 
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.confirmadd), getResources());
+<<<<<<< HEAD
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.addphoto), getResources());
 
         // Defining OnClick listener for the photo
@@ -62,6 +80,8 @@ public class AddContactActivity extends AppCompatActivity {
             }
         };
 
+=======
+>>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
 
         View.OnClickListener addContactListener = new View.OnClickListener() {
             @Override
@@ -73,6 +93,10 @@ public class AddContactActivity extends AppCompatActivity {
                 EditText contactEmail = (EditText) findViewById(R.id.contactemail);
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
                 ArrayList<ContentProviderOperation> ops =
                         new ArrayList<ContentProviderOperation>();
 
@@ -93,7 +117,10 @@ public class AddContactActivity extends AppCompatActivity {
                         .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, contactName.getText().toString())
                         .build());
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
                 //insert Mobile Number in the table ContactsContract.Data
                 ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                         .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
@@ -102,7 +129,10 @@ public class AddContactActivity extends AppCompatActivity {
                         .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
                         .build());
 
+<<<<<<< HEAD
                 // insert Email in the table ContactsContract.Data
+=======
+>>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
                 ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                         .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
                         .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)
@@ -110,6 +140,7 @@ public class AddContactActivity extends AppCompatActivity {
                         .withValue(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK)
                         .build());
 
+<<<<<<< HEAD
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 if(photo!=null){	// If an image is selected successfully
                     photo.compress(Bitmap.CompressFormat.PNG , 75, stream);
@@ -130,13 +161,18 @@ public class AddContactActivity extends AppCompatActivity {
                     }
                 }
 
+=======
+>>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
                 try{
                     getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
                     Toast.makeText(getBaseContext(), "Contact successfully added", Toast.LENGTH_SHORT).show();
                 }catch (RemoteException | OperationApplicationException e) {
                     e.printStackTrace();
                 }
+<<<<<<< HEAD
                 finish();
+=======
+>>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
 
             }
 
@@ -144,6 +180,7 @@ public class AddContactActivity extends AppCompatActivity {
         };
 
         BootstrapLabel addContactButton = (BootstrapLabel) findViewById(R.id.confirmadd);
+<<<<<<< HEAD
         BootstrapLabel addPhotoButton = (BootstrapLabel) findViewById(R.id.addphoto);
 
         addContactButton.setOnClickListener(addContactListener);
@@ -196,5 +233,10 @@ public class AddContactActivity extends AppCompatActivity {
                 return;
             }
         }
+=======
+
+        addContactButton.setOnClickListener(addContactListener);
+
+>>>>>>> c51b8f14f574ddb58c087e7f230f6b33d6ad126f
     }
 }
