@@ -56,9 +56,6 @@ public class AddContactActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ActivityCompat.requestPermissions(AddContactActivity.this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
-//                Intent intent = new Intent(Intent.ACTION_PICK);
-//                intent.setType("image/*");
-//                startActivityForResult(intent, PICK_PHOTO);
             }
         };
 
@@ -190,7 +187,7 @@ public class AddContactActivity extends AppCompatActivity {
 
                 } else {
 
-                    // permission denied, boo!
+                    // permission denied
                     Toast.makeText(AddContactActivity.this, "Permission denied to access gallery", Toast.LENGTH_SHORT).show();
                 }
                 return;
