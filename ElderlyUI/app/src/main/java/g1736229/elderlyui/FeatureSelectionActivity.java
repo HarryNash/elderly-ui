@@ -58,7 +58,7 @@ public class FeatureSelectionActivity extends AppCompatActivity {
                 new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraIntent, 1234);
     }
-
+//    moved to ContactOptionsActivity class
 //    public void openContactsActivity(View v) {
 //        Intent intent = new Intent(this, ContactSelectionActivity.class);
 //        intent.putExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE, componentSize);
