@@ -48,6 +48,9 @@
         <activity
             android:name=".ContactOptionsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddContactActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name=".Startup"
@@ -62,7 +65,6 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".AddContactActivity"></activity>
     </application>
 
 </manifest>
