@@ -32,6 +32,7 @@ public class ContactSelectionActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private String componentSize;
     String headingStyle = null;
+    String practiceMode = "false";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class ContactSelectionActivity extends AppCompatActivity {
         Intent intent = getIntent();
         componentSize = intent.getStringExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE);
         headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
+        practiceMode = intent.getStringExtra(ImpairmentDetectionActivity.PRACTICE_MODE);
         this.acquirePermissions();
     }
 
@@ -156,8 +158,7 @@ public class ContactSelectionActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_COMPONENT_SIZE, componentSize);
         intent.putExtra(DisplayContactInfoActivity.CLIPPY_MESSAGE_OVERRIDE, "");
         intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
+        intent.putExtra(ImpairmentDetectionActivity.PRACTICE_MODE, practiceMode);
         startActivity(intent);
     }
-
-
 }

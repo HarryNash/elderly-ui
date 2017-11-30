@@ -9,6 +9,7 @@ public class FeatureSelectionActivity extends AppCompatActivity {
     String componentSize;
     final int GALLERY_CODE = 67;
     String headingStyle = null;
+    String practiceMode = "off";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +19,7 @@ public class FeatureSelectionActivity extends AppCompatActivity {
         Intent intent = getIntent();
         componentSize = intent.getStringExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE);
         headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
+        practiceMode = intent.getStringExtra(ImpairmentDetectionActivity.PRACTICE_MODE);
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.gallery), getResources());
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.contacts), getResources());
     }
@@ -32,6 +34,7 @@ public class FeatureSelectionActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ContactSelectionActivity.class);
         intent.putExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE, componentSize);
         intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
+        intent.putExtra(ImpairmentDetectionActivity.PRACTICE_MODE, practiceMode);
         startActivity(intent);
     }
 }

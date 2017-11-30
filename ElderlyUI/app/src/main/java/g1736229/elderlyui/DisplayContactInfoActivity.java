@@ -59,7 +59,7 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
     private long startCallTime;
 
     private String headingStyle;
-
+    private String practiceMode;
     // User option for voice to text messaging
     boolean voiceOnly = true;
 
@@ -92,9 +92,15 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         advice.setTextSize(textSize);
 
         headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
+        practiceMode = intent.getStringExtra(ImpairmentDetectionActivity.PRACTICE_MODE);
+
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.callButton), getResources());
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.messageButton), getResources());
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.button7), getResources());
+        PracticeMode practiceModeObj = new PracticeMode();
+        practiceModeObj.switchOnOff(practiceMode, findViewById(R.id.callButton));
+        practiceModeObj.switchOnOff(practiceMode, findViewById(R.id.messageButton));
+        practiceModeObj.switchOnOff(practiceMode, findViewById(R.id.button7));
 
         whatsAppID = getContactWhatsAppID();
         if (whatsAppID == -1) {
