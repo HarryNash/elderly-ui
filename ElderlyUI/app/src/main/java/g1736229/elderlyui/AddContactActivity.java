@@ -1,12 +1,17 @@
 package g1736229.elderlyui;
 
+import android.Manifest;
 import android.content.ContentProviderOperation;
 import android.content.Intent;
 import android.content.OperationApplicationException;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.net.Uri;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +22,9 @@ import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapLabel;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import static g1736229.elderlyui.ContactSelectionActivity.EXTRA_COMPONENT_SIZE;
@@ -26,7 +33,8 @@ public class AddContactActivity extends AppCompatActivity {
 
     private String componentSize;
     private String headingStyle;
-
+    private final int PICK_PHOTO = 1;
+    Bitmap photo;
 
 
     @Override
@@ -41,6 +49,19 @@ public class AddContactActivity extends AppCompatActivity {
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.confirmadd), getResources());
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.addphoto), getResources());
 
+        // Defining OnClick listener for the photo
+        View.OnClickListener addPhotoListener = new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                ActivityCompat.requestPermissions(AddContactActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
+//                Intent intent = new Intent(Intent.ACTION_PICK);
+//                intent.setType("image/*");
+//                startActivityForResult(intent, PICK_PHOTO);
+            }
+        };
+
 
         View.OnClickListener addContactListener = new View.OnClickListener() {
             @Override
@@ -50,7 +71,6 @@ public class AddContactActivity extends AppCompatActivity {
                 EditText contactPhone = (EditText) findViewById(R.id.contactnumber);
 
                 EditText contactEmail = (EditText) findViewById(R.id.contactemail);
-
 
 
                 ArrayList<ContentProviderOperation> ops =
@@ -67,7 +87,6 @@ public class AddContactActivity extends AppCompatActivity {
 
 
                 // insert display name in the table ContactsContract.Data
-
                 ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                         .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
                         .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
@@ -82,6 +101,7 @@ public class AddContactActivity extends AppCompatActivity {
                         .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, contactPhone.getText().toString())
                         .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
                         .build());
+
                 // insert Email in the table ContactsContract.Data
                 ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                         .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
@@ -89,6 +109,26 @@ public class AddContactActivity extends AppCompatActivity {
                         .withValue(ContactsContract.CommonDataKinds.Email.ADDRESS, contactEmail.getText().toString())
                         .withValue(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK)
                         .build());
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                if(photo!=null){	// If an image is selected successfully
+                    photo.compress(Bitmap.CompressFormat.PNG , 75, stream);
+
+                    // Adding insert operation to operations list
+                    // to insert Photo in the table ContactsContract.Data
+                    ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
+                            .withValue(ContactsContract.Data.IS_SUPER_PRIMARY, 1)
+                            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
+                            .withValue(ContactsContract.CommonDataKinds.Photo.PHOTO,stream.toByteArray())
+                            .build());
+
+                    try {
+                        stream.flush();
+                    }catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
 
                 try{
                     getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
@@ -104,9 +144,57 @@ public class AddContactActivity extends AppCompatActivity {
         };
 
         BootstrapLabel addContactButton = (BootstrapLabel) findViewById(R.id.confirmadd);
+        BootstrapLabel addPhotoButton = (BootstrapLabel) findViewById(R.id.addphoto);
 
         addContactButton.setOnClickListener(addContactListener);
+        addPhotoButton.setOnClickListener(addPhotoListener);
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch(requestCode) {
+            case PICK_PHOTO:
+                if(resultCode == RESULT_OK){
+                    // Getting the uri of the picked photo
+                    Uri selectedImage = data.getData();
+
+                    InputStream imageStream = null;
+                    try {
+                        // Getting InputStream of the selected image
+                        assert selectedImage != null;
+                        imageStream = getContentResolver().openInputStream(selectedImage);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Creating bitmap of the selected image from its inputstream
+                    photo = BitmapFactory.decodeStream(imageStream);
+                }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission granted
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, PICK_PHOTO);
+
+                } else {
+
+                    // permission denied, boo!
+                    Toast.makeText(AddContactActivity.this, "Permission denied to access gallery", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
     }
 }
