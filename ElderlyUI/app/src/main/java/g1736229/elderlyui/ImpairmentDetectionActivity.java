@@ -1,14 +1,24 @@
 package g1736229.elderlyui;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.beardedhen.androidbootstrap.BootstrapLabel;
 import com.beardedhen.androidbootstrap.api.attributes.BootstrapBrand;
 import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
+
 
 
 public class ImpairmentDetectionActivity extends AppCompatActivity {
@@ -18,16 +28,38 @@ public class ImpairmentDetectionActivity extends AppCompatActivity {
     public static final String PRACTICE_MODE = "g17361229.elderlyui.PRACTICE_MODE";
     public int numberOfTimesPressedPracticeModeButton = 0;
     public String practiceModeStatus = "off";
-    //BootstrapLabel button = (BootstrapLabel)findViewById(R.id.practiceMode);
+    private PopupWindow popupWindow;
+    private LayoutInflater layoutInflater;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_impairment_detection);
-
         ComponentResizing.resizeButton("h6", "small", findViewById(R.id.small), getResources());
         ComponentResizing.resizeButton("h4", "medium", findViewById(R.id.medium), getResources());
         ComponentResizing.resizeButton("h2","large", findViewById(R.id.large), getResources());
+
+        /*BootstrapLabel buttonSmall = (BootstrapLabel) findViewById(R.id.small);
+        BootstrapLabel buttonMedium = (BootstrapLabel) findViewById(R.id.medium);
+        BootstrapLabel buttonLarge = (BootstrapLabel) findViewById(R.id.large);
+
+        layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.impairment_popup,null);
+        RelativeLayout ralativeLayout = (RelativeLayout)findViewById(R.id.rl);
+
+
+        popupWindow = new PopupWindow(container, 400, 400, true);
+        popupWindow.showAtLocation(ralativeLayout, Gravity.NO_GRAVITY, 500, 500);
+
+        buttonSmall.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+*/
     }
 
     public void selectSmallComponents(View view) {

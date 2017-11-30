@@ -105,7 +105,6 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         whatsAppID = getContactWhatsAppID();
         if (whatsAppID == -1) {
             findViewById(R.id.button7).setVisibility(View.INVISIBLE);
-            // grey out the video-call-button
         } else {
             //animate the video-call-button
         }
