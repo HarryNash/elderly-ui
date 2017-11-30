@@ -25,9 +25,14 @@ public class FeatureSelectionActivity extends AppCompatActivity {
         componentSize = intent.getStringExtra(ImpairmentDetectionActivity.EXTRA_COMPONENT_SIZE);
         headingStyle = intent.getStringExtra(ImpairmentDetectionActivity.HEADING_STYLE);
         practiceMode = intent.getStringExtra(ImpairmentDetectionActivity.PRACTICE_MODE);
-        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.gallery), getResources());
-        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.camera), getResources());
+        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.phone), getResources());
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.contacts), getResources());
+        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.camera), getResources());
+        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.gallery), getResources());
+        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.practice), getResources());
+        ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.tutorial), getResources());
+
+
     }
 
     public void openGalleryActivity(View v) {
