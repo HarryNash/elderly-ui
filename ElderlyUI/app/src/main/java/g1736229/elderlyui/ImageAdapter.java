@@ -2,10 +2,12 @@ package g1736229.elderlyui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -17,10 +19,12 @@ import java.util.List;
 public class ImageAdapter extends BaseAdapter {
     private Context mContext;
     private List<ContactInfo> contactInfos;
+    private static LayoutInflater inflater=null;
 
     public ImageAdapter(Context mContext, List<ContactInfo> contactInfos) {
         this.mContext = mContext;
         this.contactInfos = contactInfos;
+        inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public int getCount() {
@@ -37,17 +41,24 @@ public class ImageAdapter extends BaseAdapter {
 
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View view, ViewGroup parent) {
-        ImageView imageView;
+        ContactHolder contactHolder;
 
         if (view == null) {
-            view = new SquareImageView(mContext);
-            imageView = (ImageView) view;
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            view = inflater.inflate(R.layout.contacts_gridlayout, null);
+
+            contactHolder = new ContactHolder();
+            contactHolder.text = (TextView) view.findViewById(R.id.os_texts);
+            contactHolder.image = (ImageView) view.findViewById(R.id.os_images);
+            contactHolder.image.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+            view.setTag(contactHolder);
         } else {
-            imageView = (ImageView) view;
+            // Reuse views if they exist
+            contactHolder = (ContactHolder) view.getTag();
         }
 
-        setImageViewToContactImage(imageView, contactInfos.get(position).getPicture());
+        contactHolder.text.setText(contactInfos.get(position).getName());
+        setImageViewToContactImage(contactHolder.image, contactInfos.get(position).getPicture());
 
         // uncomment if you want the dogs back
         //imageView.setImageResource(mThumbIds[position]);
@@ -55,7 +66,7 @@ public class ImageAdapter extends BaseAdapter {
         // uncomment if you want random colours
         //RandomInfoGenerator randomInfoGenerator = new RandomInfoGenerator(200, 200);
         //squareImageView.setImageBitmap(randomInfoGenerator.solidColorBitmap());
-        return imageView;
+        return view;
     }
 
     // references to our images
