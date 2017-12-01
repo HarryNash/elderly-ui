@@ -116,7 +116,7 @@ public class FeatureSelectionActivity extends AppCompatActivity {
     }
 
     public void playTutorial(final View view) {
-        stopAllMediaPlayers();
+        endTutorials();
 
         tutorial01.start();
         tutorial01.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -213,15 +213,35 @@ public class FeatureSelectionActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        stopAllMediaPlayers();
+        endTutorials();
     }
 
-    private void stopAllMediaPlayers() {
+    private void endTutorials() {
         MediaPlayer[] tutorialPlayers = {tutorial01, tutorial02, tutorial03, tutorial04, tutorial05, tutorial06, tutorial07};
         for (MediaPlayer tutorial : tutorialPlayers) {
             if (tutorial.isPlaying()) {
                 tutorial.stop();
             }
+        }
+
+        BootstrapLabel[] buttons = {findViewById(R.id.phone),
+                findViewById(R.id.contacts),
+                findViewById(R.id.camera),
+                findViewById(R.id.gallery),
+                findViewById(R.id.tutorial)};
+        for (BootstrapLabel button : buttons) {
+            button.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
+        }
+
+        BootstrapLabel practiceButton = (BootstrapLabel) findViewById(R.id.practice);
+        if (isPracticeModeOn) {
+            practiceButton.setText("Practice Mode On");
+            practiceMode = "on";
+            practiceButton.setBootstrapBrand(DefaultBootstrapBrand.INFO);
+        } else {
+            practiceButton.setText("Practice Mode Off");
+            practiceMode = "off";
+            practiceButton.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
         }
     }
 }
