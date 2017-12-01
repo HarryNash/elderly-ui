@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class ImpairmentDetectionActivity extends AppCompatActivity {
     public static final String PRACTICE_MODE = "g17361229.elderlyui.PRACTICE_MODE";
     private PopupWindow popupWindow;
     private LayoutInflater layoutInflater;
+    private MediaPlayer welcomeMessage;
 
 
     @Override
@@ -37,6 +39,9 @@ public class ImpairmentDetectionActivity extends AppCompatActivity {
         ComponentResizing.resizeButton("h6", "small", findViewById(R.id.small), getResources());
         ComponentResizing.resizeButton("h4", "medium", findViewById(R.id.medium), getResources());
         ComponentResizing.resizeButton("h2","large", findViewById(R.id.large), getResources());
+
+        welcomeMessage = MediaPlayer.create(this, R.raw.welcome);
+        welcomeMessage.start();
 
         /*BootstrapLabel buttonSmall = (BootstrapLabel) findViewById(R.id.small);
         BootstrapLabel buttonMedium = (BootstrapLabel) findViewById(R.id.medium);
