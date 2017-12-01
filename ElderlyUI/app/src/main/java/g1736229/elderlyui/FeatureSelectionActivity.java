@@ -127,8 +127,6 @@ public class FeatureSelectionActivity extends AppCompatActivity {
                                                    playTutorial2(view);
                                                }
                                            });
-
-        //selectedButton.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
     }
 
     public void playTutorial2(final View view) {
