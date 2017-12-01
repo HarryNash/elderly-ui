@@ -10,11 +10,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapLabel;
+import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
+
 public class FeatureSelectionActivity extends AppCompatActivity {
     String componentSize;
     final int GALLERY_CODE = 67;
     String headingStyle = null;
     String practiceMode = "off";
+    boolean isPracticeModeOn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,5 +80,21 @@ public class FeatureSelectionActivity extends AppCompatActivity {
         intent.putExtra(ImpairmentDetectionActivity.HEADING_STYLE, headingStyle);
         intent.putExtra(ImpairmentDetectionActivity.PRACTICE_MODE, practiceMode);
         startActivity(intent);
+    }
+
+    public void selectPracticeMode(View v){
+        BootstrapLabel button = (BootstrapLabel)findViewById(R.id.practice);
+
+        isPracticeModeOn = !isPracticeModeOn;
+
+        if (isPracticeModeOn) {
+            button.setText("Practice Mode On");
+            practiceMode = "on";
+            button.setBootstrapBrand(DefaultBootstrapBrand.INFO);
+        } else {
+            button.setText("Practice Mode Off");
+            practiceMode = "off";
+            button.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
+        }
     }
 }

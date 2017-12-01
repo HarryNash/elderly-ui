@@ -26,8 +26,6 @@ public class ImpairmentDetectionActivity extends AppCompatActivity {
     public static final String EXTRA_COMPONENT_SIZE = "g17361229.elderlyui.TEXT_SIZE";
     public static final String HEADING_STYLE = "g17361229.elderlyui.HEADING_STYLE";
     public static final String PRACTICE_MODE = "g17361229.elderlyui.PRACTICE_MODE";
-    public int numberOfTimesPressedPracticeModeButton = 0;
-    public String practiceModeStatus = "off";
     private PopupWindow popupWindow;
     private LayoutInflater layoutInflater;
 
@@ -46,11 +44,11 @@ public class ImpairmentDetectionActivity extends AppCompatActivity {
 
         layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.impairment_popup,null);
-        RelativeLayout ralativeLayout = (RelativeLayout)findViewById(R.id.rl);
+        RelativeLayout relativeLayout = (RelativeLayout)findViewById(R.id.rl);
 
 
         popupWindow = new PopupWindow(container, 400, 400, true);
-        popupWindow.showAtLocation(ralativeLayout, Gravity.NO_GRAVITY, 500, 500);
+        popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY, 500, 500);
 
         buttonSmall.setOnTouchListener(new View.OnTouchListener(){
             @Override
@@ -74,25 +72,10 @@ public class ImpairmentDetectionActivity extends AppCompatActivity {
         selectCustomFont("large", "h2");
     }
 
-    public void selectPracticeMode(View v){
-        numberOfTimesPressedPracticeModeButton++;
-        BootstrapLabel button = (BootstrapLabel)findViewById(R.id.practiceMode);
-        if((numberOfTimesPressedPracticeModeButton % 2) == 1){
-            practiceModeStatus = "on";
-            button.setText("Practice Mode On");
-            button.setBootstrapBrand(DefaultBootstrapBrand.INFO);
-        }else{
-            practiceModeStatus = "off";
-            button.setText("Practice Mode Off");
-            button.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
-        }
-    }
-
     public void selectCustomFont(String componentSize, String headingStyle) {
         Intent intent = new Intent(this, FeatureSelectionActivity.class);
         intent.putExtra(EXTRA_COMPONENT_SIZE, componentSize);
         intent.putExtra(HEADING_STYLE, headingStyle);
-        intent.putExtra(PRACTICE_MODE, practiceModeStatus);
         startActivity(intent);
     }
 

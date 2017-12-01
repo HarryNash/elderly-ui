@@ -123,6 +123,7 @@
         android:layout_column="0"
         android:layout_columnWeight="1"
         android:layout_rowWeight="1"
+        android:onClick="selectPracticeMode"
         android:text="Practice Mode: Off"
         app:bootstrapBrand="warning"
         app:layout_constraintBottom_toBottomOf="parent"
