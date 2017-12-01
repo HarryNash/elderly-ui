@@ -76,6 +76,7 @@ public class ImpairmentDetectionActivity extends AppCompatActivity {
         Intent intent = new Intent(this, FeatureSelectionActivity.class);
         intent.putExtra(EXTRA_COMPONENT_SIZE, componentSize);
         intent.putExtra(HEADING_STYLE, headingStyle);
+        intent.putExtra(PRACTICE_MODE, "off"); // Practice mode off by default
         startActivity(intent);
     }
 
