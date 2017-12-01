@@ -38,20 +38,39 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DisplayContactInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ContactSelectionActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".FeatureSelectionActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop" />
         <activity
             android:name=".ContactOptionsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".FeatureSelectionActivity" />
+        </activity>
+        <activity
+            android:name=".ContactSelectionActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ContactOptionsActivity" />
+        </activity>
+        <activity
+            android:name=".DisplayContactInfoActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ContactSelectionActivity" />
+        </activity>
         <activity
             android:name=".AddContactActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ContactOptionsActivity" />
+    </activity>
 
         <receiver
             android:name=".Startup"
@@ -66,6 +85,7 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".PhoneActivity"></activity>
     </application>
 
 </manifest>
