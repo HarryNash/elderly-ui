@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:soundEffectsEnabled="true"
     tools:context="g1736229.elderlyui.FeatureSelectionActivity">
 
     <GridLayout
@@ -162,6 +163,7 @@
             android:layout_column="1"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
+            android:onClick="playTutorial"
             android:text="Tutorial"
             android:drawableTop="@drawable/tutorial_icon"
             android:drawablePadding="-30dp"

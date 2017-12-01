@@ -3,6 +3,7 @@ package g1736229.elderlyui;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,13 @@ public class FeatureSelectionActivity extends AppCompatActivity {
     String headingStyle = null;
     String practiceMode = "off";
     boolean isPracticeModeOn = false;
+    MediaPlayer tutorial01;
+    MediaPlayer tutorial02;
+    MediaPlayer tutorial03;
+    MediaPlayer tutorial04;
+    MediaPlayer tutorial05;
+    MediaPlayer tutorial06;
+    MediaPlayer tutorial07;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +44,15 @@ public class FeatureSelectionActivity extends AppCompatActivity {
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.practice), getResources());
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.tutorial), getResources());
         //ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.addcontacts), getResources());
+
+        // Set up Media Players so tutorial can be played
+        tutorial01 = MediaPlayer.create(this, R.raw.tutorial_01);
+        tutorial02 = MediaPlayer.create(this, R.raw.tutorial_02);
+        tutorial03 = MediaPlayer.create(this, R.raw.tutorial_03);
+        tutorial04 = MediaPlayer.create(this, R.raw.tutorial_04);
+        tutorial05 = MediaPlayer.create(this, R.raw.tutorial_05);
+        tutorial06 = MediaPlayer.create(this, R.raw.tutorial_06);
+        tutorial07 = MediaPlayer.create(this, R.raw.tutorial_07);
     }
 
     public void openGalleryActivity(View v) {
@@ -82,8 +99,8 @@ public class FeatureSelectionActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void selectPracticeMode(View v){
-        BootstrapLabel button = (BootstrapLabel)findViewById(R.id.practice);
+    public void selectPracticeMode(View view){
+        BootstrapLabel button = (BootstrapLabel) findViewById(R.id.practice);
 
         isPracticeModeOn = !isPracticeModeOn;
 
@@ -95,6 +112,118 @@ public class FeatureSelectionActivity extends AppCompatActivity {
             button.setText("Practice Mode Off");
             practiceMode = "off";
             button.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
+        }
+    }
+
+    public void playTutorial(final View view) {
+        stopAllMediaPlayers();
+
+        tutorial01.start();
+        tutorial01.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                               @Override
+                                               public void onCompletion(MediaPlayer mp) {
+                                                   BootstrapLabel selectedButton = (BootstrapLabel) findViewById(R.id.phone);
+                                                   selectedButton.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+                                                   playTutorial2(view);
+                                               }
+                                           });
+
+        //selectedButton.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
+    }
+
+    public void playTutorial2(final View view) {
+        tutorial02.start();
+        tutorial02.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                BootstrapLabel selectedButton = (BootstrapLabel) findViewById(R.id.phone);
+                selectedButton.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
+                selectedButton = (BootstrapLabel) findViewById(R.id.contacts);
+                selectedButton.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+                playTutorial3(view);
+            }
+        });
+    }
+
+    public void playTutorial3(final View view) {
+        tutorial03.start();
+        tutorial03.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                BootstrapLabel selectedButton = (BootstrapLabel) findViewById(R.id.contacts);
+                selectedButton.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
+                selectedButton = (BootstrapLabel) findViewById(R.id.camera);
+                selectedButton.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+                playTutorial4(view);
+            }
+        });
+    }
+
+    public void playTutorial4(final View view) {
+        tutorial04.start();
+        tutorial04.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                BootstrapLabel selectedButton = (BootstrapLabel) findViewById(R.id.camera);
+                selectedButton.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
+                selectedButton = (BootstrapLabel) findViewById(R.id.gallery);
+                selectedButton.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+                playTutorial5(view);
+            }
+        });
+    }
+
+    public void playTutorial5(final View view) {
+        tutorial05.start();
+        tutorial05.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                BootstrapLabel selectedButton = (BootstrapLabel) findViewById(R.id.gallery);
+                selectedButton.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
+                selectedButton = (BootstrapLabel) findViewById(R.id.practice);
+                selectedButton.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+                playTutorial6(view);
+            }
+        });
+    }
+
+    public void playTutorial6(final View view) {
+        tutorial06.start();
+        tutorial06.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                BootstrapLabel selectedButton = (BootstrapLabel) findViewById(R.id.practice);
+                selectedButton.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
+                selectedButton = (BootstrapLabel) findViewById(R.id.tutorial);
+                selectedButton.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+                playTutorial7(view);
+            }
+        });
+    }
+
+    public void playTutorial7(final View view) {
+        tutorial07.start();
+        tutorial07.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                BootstrapLabel selectedButton = (BootstrapLabel) findViewById(R.id.tutorial);
+                selectedButton.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopAllMediaPlayers();
+    }
+
+    private void stopAllMediaPlayers() {
+        MediaPlayer[] tutorialPlayers = {tutorial01, tutorial02, tutorial03, tutorial04, tutorial05, tutorial06, tutorial07};
+        for (MediaPlayer tutorial : tutorialPlayers) {
+            if (tutorial.isPlaying()) {
+                tutorial.stop();
+            }
         }
     }
 }
