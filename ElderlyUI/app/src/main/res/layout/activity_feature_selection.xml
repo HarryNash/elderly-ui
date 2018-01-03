@@ -8,8 +8,8 @@
     tools:context="g1736229.elderlyui.FeatureSelectionActivity">
 
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:visibility="visible"
         android:columnCount="2"
         android:rowCount="3"
@@ -18,11 +18,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="143dp">
+        app:layout_constraintVertical_bias="0.0">
 
         <com.beardedhen.androidbootstrap.BootstrapLabel
             android:id="@+id/phone"
+            android:onClick="openPhoneActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"

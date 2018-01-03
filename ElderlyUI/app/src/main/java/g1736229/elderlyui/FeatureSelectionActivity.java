@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -61,17 +62,24 @@ public class FeatureSelectionActivity extends AppCompatActivity {
         startActivityForResult(cameraIntent, GALLERY_CODE);
     }
 
-    public boolean checkPermissionForCamera(){
+    public boolean checkPermissionForCamera() {
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         return result == PackageManager.PERMISSION_GRANTED;
     }
 
-    public void requestPermissionForCamera(){
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)){
+    public void requestPermissionForCamera() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
             Toast.makeText(this, "Camera permission needed. Please allow in App Settings for additional functionality.", Toast.LENGTH_LONG).show();
         } else {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA}, 1234);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1234);
         }
+    }
+
+    public void openPhoneActivity(View v) {
+        //open the phone dialer on clicking the button
+        System.out.println("Hi there");
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        startActivity(intent);
     }
 
     public void openCameraActivity(View v) {
