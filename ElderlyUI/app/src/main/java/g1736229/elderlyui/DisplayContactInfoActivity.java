@@ -44,7 +44,7 @@ import static g1736229.elderlyui.ContactSelectionActivity.EXTRA_COMPONENT_SIZE;
 import static g1736229.elderlyui.ContactSelectionActivity.EXTRA_MESSAGE;
 import java.util.Locale;
 
-public class DisplayContactInfoActivity extends AppCompatActivity {
+public abstract class DisplayContactInfoActivity extends AppCompatActivity {
     public static final String CLIPPY_MESSAGE_OVERRIDE = "g17361229.elderlyui.CLIPPY_MESSAGE_OVERRIDE";
     private String componentSize;
     private int textSize;
@@ -52,11 +52,11 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
 
     private String phoneNumber = "";
     private String name;
-    private long whatsAppID;
+    protected long whatsAppID;
 
-    private int VIDEO_CALL_CODE = 55;
-    private int PHONE_CALL_CODE = 83;
-    private long startCallTime;
+    protected int VIDEO_CALL_CODE = 55;
+    protected int PHONE_CALL_CODE = 83;
+    protected long startCallTime;
 
     private String headingStyle;
     private String practiceMode;
@@ -323,19 +323,7 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         }
     }
 
-    public void makeVideoCall(View view) {
-        startCallTime = System.nanoTime();
-
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse("content://com.android.contacts/data/" + whatsAppID),
-                "vnd.android.cursor.item/vnd.com.whatsapp.voip.call");
-        intent.setPackage("com.whatsapp");
-
-        startActivityForResult(intent, VIDEO_CALL_CODE);
-        //Intent cameraIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-        //startActivityForResult(cameraIntent, VIDEO_CALL_CODE);
-    }
+    public abstract void makeVideoCall(View view);
 
     private Intent createTextMessageIntent(String phoneNumber) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
