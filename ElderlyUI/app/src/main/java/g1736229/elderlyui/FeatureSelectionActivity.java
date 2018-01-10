@@ -20,7 +20,6 @@ public class FeatureSelectionActivity extends AppCompatActivity {
     final int GALLERY_CODE = 67;
     String headingStyle = null;
     String practiceMode = "off";
-    boolean isPracticeModeOn = false;
     MediaPlayer tutorial01;
     MediaPlayer tutorial02;
     MediaPlayer tutorial03;
@@ -110,15 +109,13 @@ public class FeatureSelectionActivity extends AppCompatActivity {
     public void selectPracticeMode(View view){
         BootstrapLabel button = (BootstrapLabel) findViewById(R.id.practice);
 
-        isPracticeModeOn = !isPracticeModeOn;
-
-        if (isPracticeModeOn) {
-            button.setText("Practice Mode On");
+        if (practiceMode.equals("off")) {
             practiceMode = "on";
+            button.setText("Practice Mode On");
             button.setBootstrapBrand(DefaultBootstrapBrand.INFO);
         } else {
-            button.setText("Practice Mode Off");
             practiceMode = "off";
+            button.setText("Practice Mode Off");
             button.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
         }
     }
@@ -241,6 +238,7 @@ public class FeatureSelectionActivity extends AppCompatActivity {
             button.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
         }
 
+        /*
         BootstrapLabel practiceButton = (BootstrapLabel) findViewById(R.id.practice);
         if (isPracticeModeOn) {
             practiceButton.setText("Practice Mode On");
@@ -251,5 +249,6 @@ public class FeatureSelectionActivity extends AppCompatActivity {
             practiceMode = "off";
             practiceButton.setBootstrapBrand(DefaultBootstrapBrand.WARNING);
         }
+        */
     }
 }

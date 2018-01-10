@@ -14,9 +14,11 @@ import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapLabel;
@@ -61,7 +63,6 @@ public class AddContactActivity extends AppCompatActivity {
             }
         };
 
-
         View.OnClickListener addContactListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,62 +79,72 @@ public class AddContactActivity extends AppCompatActivity {
                 int rawContactID = ops.size();
 
 
-                // insert a new raw contact in the table ContactsContract.RawContacts
-                ops.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
-                        .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
-                        .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
-                        .build());
+                if (practiceMode.equals("on")) {
+                    Toast.makeText(getApplicationContext(), "This would have created a new contact if practice mode was on.", Toast.LENGTH_LONG).show();
+                } else {
 
-
-                // insert display name in the table ContactsContract.Data
-                ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                        .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
-                        .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
-                        .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, contactName.getText().toString())
-                        .build());
-
-
-                //insert Mobile Number in the table ContactsContract.Data
-                ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                        .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
-                        .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-                        .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, contactPhone.getText().toString())
-                        .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
-                        .build());
-
-                // insert Email in the table ContactsContract.Data
-                ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                        .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
-                        .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)
-                        .withValue(ContactsContract.CommonDataKinds.Email.ADDRESS, contactEmail.getText().toString())
-                        .withValue(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK)
-                        .build());
-
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                if(photo!=null){	// If an image is selected successfully
-                    photo.compress(Bitmap.CompressFormat.PNG , 75, stream);
-
-                    // Adding insert operation to operations list
-                    // to insert Photo in the table ContactsContract.Data
-                    ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
-                            .withValue(ContactsContract.Data.IS_SUPER_PRIMARY, 1)
-                            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
-                            .withValue(ContactsContract.CommonDataKinds.Photo.PHOTO,stream.toByteArray())
+                    // insert a new raw contact in the table ContactsContract.RawContacts
+                    ops.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                            .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                            .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
                             .build());
 
+
+                    // insert display name in the table ContactsContract.Data
+                    ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
+                            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                            .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, contactName.getText().toString())
+                            .build());
+
+
+                    //insert Mobile Number in the table ContactsContract.Data
+                    ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
+                            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                            .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, contactPhone.getText().toString())
+                            .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                            .build());
+
+                    // insert Email in the table ContactsContract.Data
+                    ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
+                            .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)
+                            .withValue(ContactsContract.CommonDataKinds.Email.ADDRESS, contactEmail.getText().toString())
+                            .withValue(ContactsContract.CommonDataKinds.Email.TYPE, ContactsContract.CommonDataKinds.Email.TYPE_WORK)
+                            .build());
+
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    if (photo != null) {    // If an image is selected successfully
+                        Log.d("ape", "here4");
+                        photo.compress(Bitmap.CompressFormat.PNG, 75, stream);
+
+                        // Adding insert operation to operations list
+                        // to insert Photo in the table ContactsContract.Data
+                        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
+                                .withValue(ContactsContract.Data.IS_SUPER_PRIMARY, 1)
+                                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
+                                .withValue(ContactsContract.CommonDataKinds.Photo.PHOTO, stream.toByteArray())
+                                .build());
+
+                        try {
+                            Log.d("ape", "here3");
+                            stream.flush();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     try {
-                        stream.flush();
-                    }catch (IOException e) {
+                        Log.d("ape", "here2");
+                        getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+                        Log.d("ape", "here1");
+                        Toast.makeText(getBaseContext(), "Contact successfully added", Toast.LENGTH_SHORT).show();
+                    } catch (RemoteException | OperationApplicationException e) {
                         e.printStackTrace();
                     }
-                }
 
-                try{
-                    getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
-                    Toast.makeText(getBaseContext(), "Contact successfully added", Toast.LENGTH_SHORT).show();
-                }catch (RemoteException | OperationApplicationException e) {
-                    e.printStackTrace();
                 }
                 finish();
 
@@ -148,8 +159,8 @@ public class AddContactActivity extends AppCompatActivity {
         //when "practice mode" is ON, the actions of the user have no real world consequences
         //i.e. the user can explore and navigate through the app but he/she can't add/delete contacts or call people
         //that's why the confirmadd button is disabled when practice mode is on
-        PracticeMode practiceModeObj = new PracticeMode();
-        practiceModeObj.switchOnOff(practiceMode, findViewById(R.id.confirmadd));
+        //PracticeMode practiceModeObj = new PracticeMode();
+        //practiceModeObj.switchOnOff(practiceMode, findViewById(R.id.confirmadd));
 
         addContactButton.setOnClickListener(addContactListener);
         addPhotoButton.setOnClickListener(addPhotoListener);

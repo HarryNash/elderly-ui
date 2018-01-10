@@ -97,10 +97,12 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.callButton), getResources());
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.messageButton), getResources());
         ComponentResizing.resizeButton(headingStyle, componentSize, findViewById(R.id.button7), getResources());
+        /*
         PracticeMode practiceModeObj = new PracticeMode();
         practiceModeObj.switchOnOff(practiceMode, findViewById(R.id.callButton));
         practiceModeObj.switchOnOff(practiceMode, findViewById(R.id.messageButton));
         practiceModeObj.switchOnOff(practiceMode, findViewById(R.id.button7));
+        */
 
         whatsAppID = getContactWhatsAppID();
         if (whatsAppID == -1) {
