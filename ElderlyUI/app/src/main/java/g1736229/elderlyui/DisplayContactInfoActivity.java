@@ -213,11 +213,12 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
                         }
                     }
                 };
-
+                /*
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("That video call didn't go so well, perhaps one of you had a bad connection, would you like to try a phone call which is more reliable instead?")
                         .setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
+                */
             }
         }
 
@@ -288,6 +289,10 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
     }
 
     public void makeCall(View view) {
+        if (practiceMode.equals("on")) {
+            Toast.makeText(getApplicationContext(), "This would have started a phone call with " + name + " if practice mode was off.", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         final Handler mHandler = new Handler()
         {
@@ -317,6 +322,11 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
     }
 
     public void makeText(View view) {
+        if (practiceMode.equals("on")) {
+            Toast.makeText(getApplicationContext(), "This would have begun writing a text for " + name + " if practice mode was off.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (voiceOnly) {
             startVoiceInput();
         } else {
@@ -326,6 +336,11 @@ public class DisplayContactInfoActivity extends AppCompatActivity {
     }
 
     public void makeVideoCall(View view) {
+        if (practiceMode.equals("on")) {
+            Toast.makeText(getApplicationContext(), "This would have opened up a video call with " + name + " if practice mode was off.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         startCallTime = System.nanoTime();
 
         Intent intent = new Intent();
